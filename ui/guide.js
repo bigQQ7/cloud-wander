@@ -1,4 +1,4 @@
-const css=new URL('./guide.css?v=guide5',import.meta.url);if(!document.querySelector('[data-cloud-guide-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href=css.href;link.dataset.cloudGuideCss='';document.head.append(link);}
+const css=new URL('./guide.css?v=font1',import.meta.url);if(!document.querySelector('[data-cloud-guide-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href=css.href;link.dataset.cloudGuideCss='';document.head.append(link);}
 let chapter=1,positionProvider=null,hintTimer,bannerTimer;
 const root=document.createElement('div');root.id='cloud-guide';root.dataset.chapter=chapter;
 const hint=document.createElement('div');hint.className='cg-hint';hint.setAttribute('role','status');hint.setAttribute('aria-live','polite');
@@ -21,4 +21,6 @@ export function setChapter(value){chapter=[1,2,3].includes(Number(value))?Number
 export function setPositionProvider(provider){positionProvider=provider;}
 export function reportPosition(x,y,z){window.cloudGuidePosition={x:Number(x),y:Number(y),z:Number(z)};}
 addEventListener('keydown',e=>{if(e.code!=='KeyP'||e.repeat||e.ctrlKey||e.metaKey||e.altKey||e.target.closest?.('input,textarea,select,[contenteditable="true"]'))return;const p=positionProvider?.()||window.cloudGuidePosition;if(p&&[p.x,p.y,p.z].every(Number.isFinite))console.log({x:p.x,y:p.y,z:p.z});else console.warn('玩家坐标尚不可用；Unity 关卡需要接入位置桥接。');},true);
-window.CloudGuide={say,clearSay,showHint,showBanner,hideHint,hideBanner,setChapter,setPositionProvider,reportPosition};
+/* 交互提示（E）统一用引导条显示；同一时间只显示一个，谁显示谁负责收起，避免互相覆盖 */
+export function setPrompt(owner,text){const cur=window.__cgPrompt;if(text){if(cur&&cur.owner!==owner)return;if(cur&&cur.text===text)return;showHint(text,{duration:0});window.__cgPrompt={owner,text};}else if(cur&&cur.owner===owner){hideHint();window.__cgPrompt=null;}}
+window.CloudGuide={say,clearSay,showHint,showBanner,hideHint,hideBanner,setChapter,setPositionProvider,reportPosition,setPrompt};

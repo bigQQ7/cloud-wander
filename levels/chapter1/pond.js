@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {sunDirection,hazeColor} from './lighting.js?v=mvp3';
-import {obstacles} from './physics.js?v=spawn2';
+import {obstacles} from './physics.js?v=walk1';
 export function createPond(scene,options={}){
  const object=new THREE.Group();object.name='镜湖水池';object.userData.groundAnchor='shoreline';object.position.set(options.x??-1,options.y??5.23,options.z??13);
  const radius=options.radius??2.7,segments=80,positions=[0,0,0],uv=[.5,.5],indices=[];

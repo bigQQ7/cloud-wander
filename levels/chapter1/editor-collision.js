@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {zones,obstacles} from './physics.js?v=spawn2';
+import {zones,obstacles} from './physics.js?v=walk1';
 export function makeEditorCollisionSync(surfaces,records){
  const sourceZones=zones.map(z=>JSON.parse(JSON.stringify(z))),sourceSurfaces=surfaces.map(s=>({...s})),sourceObstacles=obstacles.map(s=>({...s}));
  const names=['01 • Awakening stone gate','01 • Awakening stone gate','03 • Great windmill','03 • Keeper cottage','tree:4','04 • Ruins beneath the tree','05 • Tower of wind'];

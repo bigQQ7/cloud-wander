@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {zones,obstacles} from './physics.js?v=spawn2';
+import {zones,obstacles} from './physics.js?v=walk1';
 
 // Real tapered blades and flower heads: no transparent billboards or cutout edges.
 function geometry(build){

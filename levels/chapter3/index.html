@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -148,8 +148,8 @@
       document.body.appendChild(script);
 
     </script>
-  <script type="module">import {setChapter,setPositionProvider} from "../../ui/guide.js?v=guide5";setChapter(3);
-import {createUISystem} from "../../ui/system.js?v=restart1";
+  <script type="module">import {setChapter,setPositionProvider} from "../../ui/guide.js?v=prio1";setChapter(3);
+import {createUISystem} from "../../ui/system.js?v=prio1";
 /* 和第一、二关同一套暂停菜单（Esc / 鼠标移出时出现），可以从头开始本关 */
 createUISystem({chapter:3,position:()=>({x:0,y:0,z:0}),project:()=>({x:innerWidth/2,y:innerHeight/2,visible:false}),onPause:()=>{},onResume:()=>{document.querySelector('#unity-canvas')?.focus();},onRestart:()=>location.reload(),canPause:()=>!!window.__levelReady});</script>
 <style>.cu-hud,.cu-next-arrow,.cu-point{display:none!important}</style>

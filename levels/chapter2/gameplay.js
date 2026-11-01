@@ -1,6 +1,6 @@
 import {createFountainFX} from './fountain.js?v=fx2';
 import {createBGM} from '../shared/bgm.js?v=bgm3';createBGM('garden');
-import {createUISystem} from '../../ui/system.js?v=restart1';
+import {createUISystem} from '../../ui/system.js?v=prio1';
 import {createGameAudio} from '../shared/game-audio.js';
 import {createResonanceFX} from '../shared/resonance-fx.js';
 import {createGame,normalizeSave,SAVE_KEY,missingExit} from './game-core.mjs?v=polish2';
@@ -91,7 +91,8 @@ export function createGameplay({T,scene,world,camera,controls,renderer,westBridg
   addEventListener('mousemove',e=>{if(!playing)return;if(document.pointerLockElement!==canvas&&!mouseDrag)return;camYaw-=e.movementX*.0032*(sharedUI?.settings.sensitivity||1);camPitch=T.MathUtils.clamp(camPitch+e.movementY*.0024*(sharedUI?.settings.sensitivity||1),.02,.9);lastMouse=performance.now();});
   canvas.addEventListener('pointerdown',e=>{if(playing&&e.button===2)mouseDrag=true;});addEventListener('pointerup',()=>mouseDrag=false);canvas.addEventListener('contextmenu',e=>{if(playing)e.preventDefault();});
   const setFov=f=>{camera.fov=f;camera.updateProjectionMatrix();};
-  function enter(){playing=true;paused=false;engine.pause(false);controls.enabled=false;player.visible=true;if(heroReady)hero.show();document.body.classList.add('playing');$('#game-intro').style.display='none';$('#game-result').style.display='none';$('#game-play-toggle').textContent='返回场景查看';lastTime=performance.now();const s=engine.snapshot();camLook.set(s.actor.x,s.actor.y+1,s.actor.z);setFov(55);if(!s.inLane){camYaw=faceYaw+Math.PI;camera.position.set(s.actor.x+Math.sin(camYaw)*4.4,s.actor.y+2.1,s.actor.z+Math.cos(camYaw)*4.4);}}
+  let introCam=null,introDone=false;
+  function enter(){if(!introDone&&!interactionTest){introDone=true;introCam={t:0};}playing=true;paused=false;engine.pause(false);controls.enabled=false;player.visible=true;if(heroReady)hero.show();document.body.classList.add('playing');$('#game-intro').style.display='none';$('#game-result').style.display='none';$('#game-play-toggle').textContent='返回场景查看';lastTime=performance.now();const s=engine.snapshot();camLook.set(s.actor.x,s.actor.y+1,s.actor.z);setFov(55);if(!s.inLane){camYaw=faceYaw+Math.PI;camera.position.set(s.actor.x+Math.sin(camYaw)*4.4,s.actor.y+2.1,s.actor.z+Math.cos(camYaw)*4.4);}}
   function inspect(){resonanceDelay=0;document.exitPointerLock?.();setFov(38);playing=false;engine.pause(true);controls.enabled=true;player.visible=false;if(heroReady)hero.hide();document.body.classList.remove('playing');$('#game-intro').style.display='none';$('#game-result').style.display='none';$('#game-play-toggle').textContent='进入冒险';camera.position.set(0,43,65);controls.target.set(0,0,-4);controls.update();}
   function reset(){resonanceDelay=0;engine=createGame(level,null);lastSave='';try{localStorage.removeItem(SAVE_KEY);}catch{}keys.clear();queuedJump=queuedUse=queuedRespawn=queuedRes=false;$('#game-result').style.display='none';enter();}
   $('#game-start').onclick=enter;$('#game-inspect').onclick=inspect;$('#game-play-toggle').onclick=()=>playing?inspect():enter();$('#game-reset').onclick=reset;$('#game-again').onclick=reset;$('#game-after-inspect').onclick=inspect;$('#game-pause').onclick=()=>{if(!playing)return;paused=!paused;engine.pause(paused);if(paused)document.exitPointerLock?.();};
@@ -166,7 +167,7 @@ export function createGameplay({T,scene,world,camera,controls,renderer,westBridg
   let lastPos=new T.Vector3(),lastSubtitle='';
   {const st=document.createElement('style');st.textContent='#game-message{display:none!important}';document.head.append(st);}
   function extras(s,dt){
-    if(playing&&s.message&&s.message!==lastSubtitle){lastSubtitle=s.message;window.CloudGuide?.say(s.message);}else if(!s.message)lastSubtitle='';sharedUI?.update(dt,{active:playing&&!paused&&s.mode==='play'});sharedUI?.syncCollection(s.state.key?1:0,boneEnd);
+    if(playing&&s.message&&s.message!==lastSubtitle){lastSubtitle=s.message;if(introCam)introCam.pending=s.message;else window.CloudGuide?.say(s.message);}else if(!s.message)lastSubtitle='';sharedUI?.update(dt,{active:playing&&!paused&&s.mode==='play'&&!introCam});sharedUI?.syncCollection(s.state.key?1:0,boneEnd);
     clock+=dt;gameAudio.update(s.actor,dt,playing&&!paused&&s.mode!=='won',s.zone==='courtyard'?'carpet':s.zone==='bridge'?'wood':'stone');audioHadKey=s.state.key;
     for(const p of pads){
       if(!p.particles){
@@ -240,7 +241,7 @@ if(h!==window.__ctxHint){window.__ctxHint=h;if(show){window.CloudGuide?.showHint
       if(!pre.inLane){const fx=-Math.sin(camYaw),fz=-Math.cos(camYaw),rx=Math.cos(camYaw),rz=-Math.sin(camYaw);x=fx*(-iz)+rx*ix;z=fz*(-iz)+rz*ix;
         if(iz<0&&performance.now()-lastMouse>1500){const want=Math.atan2(-x,-z);let d=want-camYaw;d=Math.atan2(Math.sin(d),Math.cos(d));camYaw+=d*Math.min(1,dt*1.1);}}
       const wasCasting=resonanceDelay>0;if(queuedRes&&!wasCasting)resonanceDelay=2.7;resonanceDelay=Math.max(0,resonanceDelay-dt);const releaseResonance=wasCasting&&resonanceDelay===0;
-      const input={x,z,jump:queuedJump,jumpHeld:keys.has(' ')||touchJump,interact:queuedUse,respawn:queuedRespawn,resonate:releaseResonance,sprint:keys.has('shift')};queuedJump=queuedUse=queuedRespawn=queuedRes=false;
+      if(introCam){x=0;z=0;queuedJump=queuedUse=queuedRespawn=false;}const input={x,z,jump:queuedJump,jumpHeld:keys.has(' ')||touchJump,interact:queuedUse,respawn:queuedRespawn,resonate:releaseResonance,sprint:keys.has('shift')};queuedJump=queuedUse=queuedRespawn=queuedRes=false;
       const n=Math.max(1,Math.ceil(dt/(1/90)));for(let i=0;i<n;i++)engine.tick(dt/n,{...input,jump:i===0&&input.jump,interact:i===0&&input.interact,respawn:i===0&&input.respawn,resonate:i===0&&input.resonate});
       const s0=engine.snapshot();
       let facing;
@@ -270,7 +271,13 @@ if(h!==window.__ctxHint){window.__ctxHint=h;if(show){window.CloudGuide?.showHint
         desired=new T.Vector3(s.actor.x+cx*dist,s.actor.y+hgt,s.actor.z+cz*dist);look=new T.Vector3(s.actor.x-cx*1.8,s.actor.y+1.05,s.actor.z-cz*1.8);}
       if(interactionTest&&new URLSearchParams(location.search).has('capture')){look=chestCenter.clone().lerp(boneEnd||chestCenter,.25);desired=look.clone().add(new T.Vector3(3,3.5,5));}
       prevInLane=s.inLane;
-      const k=1-Math.exp(-(s.inLane?3.2:8)*dt);camera.position.lerp(desired,k);camLook.lerp(look,k);camera.lookAt(camLook);controls.target.copy(camLook);renderHUD(s);
+      if(introCam&&!paused){/* 开场运镜：从花园高处绕一大圈俯瞰，再缓缓推回主角身后 */
+        introCam.t+=dt*(introCam.t>1&&keys.size?4:1);const TT=7.5,kk=Math.min(1,introCam.t/TT),sm=v=>{v=Math.min(1,Math.max(0,v));return v*v*(3-2*v);};
+        const a=sm(kk/.75),ang=camYaw+(1-a)*Math.PI*1.6,r=36+(12-36)*a,h=18+(6-18)*a,b=sm((kk-.6)/.4);
+        const orbit=new T.Vector3(s.actor.x+Math.sin(ang)*r,s.actor.y+h,s.actor.z+Math.cos(ang)*r),center=new T.Vector3(0,2,-4);
+        camera.position.copy(orbit.lerp(desired,b));camLook.copy(center.lerp(look,sm((kk-.35)/.65)));camera.lookAt(camLook);controls.target.copy(camLook);
+        if(kk>=1){if(introCam.pending)window.CloudGuide?.say(introCam.pending);introCam=null;}renderHUD(s);
+      }else{const k=1-Math.exp(-(s.inLane?3.2:8)*dt);camera.position.lerp(desired,k);camLook.lerp(look,k);camera.lookAt(camLook);controls.target.copy(camLook);renderHUD(s);}
     }
     saveTimer+=dt;if(saveTimer>.5&&!window.__cloudRestart){saveTimer=0;const data=JSON.stringify(s.state);if(data!==lastSave){try{localStorage.setItem(SAVE_KEY,data);lastSave=data;storageOK=true;}catch{storageOK=false;}}}
     if(s.mode==='won'&&playing){playing=false;try{localStorage.setItem('cloud-wander-highest-unlocked','3')}catch{}window.cloudShowLevelComplete(2);$('#game-result').style.display='grid';$('#win-stats').textContent=`找回了金骨头，也滑完了流水滑梯。用时 ${Math.floor(s.elapsed/60)} 分 ${Math.floor(s.elapsed%60)} 秒，落水 ${s.falls} 次。`;}

@@ -1,4 +1,4 @@
-import {createGameplay} from './gameplay.js?v=polish9';
+import {createGameplay} from './gameplay.js?v=prio1';
 import {checkClearance} from './clearance.js?v=1793348657994569199';
 import {enhance} from './enhance.js?v=1793348657994569199';
 import * as T from 'three';

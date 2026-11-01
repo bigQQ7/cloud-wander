@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 // Apply in character space, then reconstruct local transforms. The exported rig
 // has disconnected deform chains, so ordinary spine parenting is insufficient.
-export const GAIT={walk:{swing:.40,elbow:.12,lean:.035,twist:.14,roll:.075,bob:.020},run:{swing:.60,elbow:.42,lean:.14,twist:.18,roll:.095,bob:.032}};
+export const GAIT={walk:{swing:.50,elbow:.20,lean:.05,twist:.17,roll:.10,bob:.032},run:{swing:.60,elbow:.42,lean:.14,twist:.18,roll:.095,bob:.032}};
 export function createLocomotionLayer(model,root){
  const bones=[];model.traverse(b=>{if(b.isBone)bones.push(b);});
  const canonical=n=>n.replace(/[._]/g,'').toLowerCase();

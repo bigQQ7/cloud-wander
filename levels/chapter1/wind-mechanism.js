@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import {obstacles,surfaceAt} from './physics.js?v=spawn2';
+import {obstacles,surfaceAt} from './physics.js?v=walk1';
 import {STORY_KEY,normalizeStory,advanceStory,canUseWind} from './story-state.js?v=mvp3';
 export function createWindMechanism({scene,canvas,camera,hero,assets,surfaces,getMode,lock,unlock,toast}){
  const $=s=>document.querySelector(s);let story;
  try{story=normalizeStory(JSON.parse(localStorage.getItem(STORY_KEY)));}catch{story=normalizeStory(null);}
- const station=new THREE.Group();station.name='风纹机关台';station.position.set(1.7/10.5,.08/10.5,-5/10.5);station.scale.set(1/10.5,.40/10.5,1/10.5);assets.windmill.add(station);
+ const station=new THREE.Group();station.name='风纹机关台';station.position.set(1.7/10.5,.08/10.5,-5/10.5);station.scale.set(.62/10.5,.34/10.5,.62/10.5);/* 机关台缩小，抚摸时能看清手部动作 */assets.windmill.add(station);
  const stone=new THREE.MeshStandardMaterial({color:'#d9cfad',roughness:.94}),trim=new THREE.MeshStandardMaterial({color:'#b99c60',roughness:.7,metalness:.15});
  function mesh(geometry,material,y){const o=new THREE.Mesh(geometry,material);o.position.y=y;o.castShadow=o.receiveShadow=true;station.add(o);return o;}
  mesh(new THREE.CylinderGeometry(.40,.45,.16,8),stone,.08);mesh(new THREE.CylinderGeometry(.40,.50,.68,8),stone,.49);mesh(new THREE.CylinderGeometry(.62,.52,.18,12),stone,.91);
@@ -29,9 +29,9 @@ export function createWindMechanism({scene,canvas,camera,hero,assets,surfaces,ge
  function closeMemory(){if(!dialog)return;dialog=false;event('viewed');$('#windMemory').hidden=true;canvas.dataset.windMemory='closed';unlock();status('已找回「我们的记号」· 沿亮起的云桥前往回声树屋',6);if(storageWarning)toast('当前浏览器无法保存进度，本次游玩仍可继续');}
  function cancel(){hero.clearInteraction();phase=wasActive?'active':'dormant';unlock();status('已收回手，可以再次靠近风纹',3);}
  function use(){
-  if(!near||busy()||dialog||!actor)return false;
+  if(!near||busy()||dialog||!actor)return false;if(phase==='active'&&story.windMemoryCollected)return false;
   from.set(actor.pos.x,actor.pos.y,actor.pos.z);forward.subVectors(at,from);forward.y=0;if(forward.lengthSq()<.001)forward.set(0,0,1);forward.normalize();right.set(forward.z,0,-forward.x);
-  destination.copy(at).addScaledVector(forward,-.70).addScaledVector(right,.28);const floor=surfaceAt(surfaces,destination.x,destination.z,actor.pos.y+.4);
+  destination.copy(at).addScaledVector(forward,-.5).addScaledVector(right,.12);const floor=surfaceAt(surfaces,destination.x,destination.z,actor.pos.y+.4);
   if(!floor||Math.abs(floor.h-actor.pos.y)>.45){toast('请从机关台前方的平地靠近');return false;}destination.y=floor.h;
   facing=Math.atan2(forward.x,forward.z);wasActive=story.windmillActivated;phase='approaching';clock=0;lock();hero.setInteraction('Walk',facing);
   try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume().catch(()=>{});}catch{}
@@ -43,8 +43,8 @@ export function createWindMechanism({scene,canvas,camera,hero,assets,surfaces,ge
   now=seconds;actor=p;station.getWorldPosition(at);station.getWorldScale(worldScale);let visible=true;for(let o=station;o;o=o.parent)if(!o.visible)visible=false;
   beaconObstacle.x=at.x;beaconObstacle.z=at.z;beaconObstacle.rx=beaconObstacle.rz=.40*worldScale.x;beaconObstacle.h=visible?at.y+1.1*worldScale.y:-10000;
   near=canUseWind(p,at,getMode(),visible);
-  $('#windPrompt').hidden=!near||busy()||dialog;
-  $('#windPromptText').textContent=phase==='active'?(story.windMemoryCollected?'抚摸风纹 · 重温记忆':'抚摸风纹 · 查看记忆'):'轻抚风纹，唤醒风车';
+  $('#windPrompt').hidden=true;/* 旧样式提示不再显示，统一用引导条；记忆已经看过就不再提示 */
+  {const replay=phase==='active'&&story.windMemoryCollected;window.CloudGuide?.setPrompt?.('wind',near&&!busy()&&!dialog&&!replay?(phase==='active'?'按 **E** 抚摸风纹 · 查看记忆':'按 **E** 轻抚风纹，唤醒风车'):null);}
   if(phase==='approaching'){
    clock+=dt;const t=Math.min(1,clock/.7),ease=t*t*(3-2*t);const point=new THREE.Vector3().lerpVectors(from,destination,ease);p.pos.x=point.x;p.pos.y=point.y;p.pos.z=point.z;p.vy=0;p.grounded=true;
    if(t>=1){phase='petting';clock=0;hero.setInteraction('Petting',facing);status('伸手轻抚风纹……',4);}
@@ -60,8 +60,9 @@ export function createWindMechanism({scene,canvas,camera,hero,assets,surfaces,ge
    shotEye.set(wideCenter.x+Math.sin(a)*dist,wideCenter.y+H*.18+2,wideCenter.z+Math.cos(a)*dist);shotTarget.copy(wideCenter);shotTarget.y+=H*.08;
    const w=1-Math.exp(-dt*(clock<1.2?1.6:3));camera.position.lerp(shotEye,w);wideLook.lerp(shotTarget,w);camera.lookAt(wideLook);
   }else if(busy()){
-   shotTarget.copy(at).addScaledVector(forward,-.35);shotTarget.y+=.55;wideLook.copy(shotTarget);
-   shotEye.copy(at).addScaledVector(forward,-2.0).addScaledVector(right,-2.2);shotEye.y+=1.15;camera.position.lerp(shotEye,1-Math.exp(-dt*7));camera.lookAt(shotTarget);
+   /* 侧面近景：从角色侧前方看，手放到机关台上的动作看得清 */
+   shotTarget.copy(at).addScaledVector(forward,-.3);shotTarget.y+=.5;wideLook.copy(shotTarget);
+   shotEye.copy(at).addScaledVector(forward,-.9).addScaledVector(right,2.3);shotEye.y+=.95;camera.position.lerp(shotEye,1-Math.exp(-dt*7));camera.lookAt(shotTarget);
   }
   const amount=story.windmillActivated?(phase==='activating'?.3+.7*Math.min(1,clock/3):1):0;
   magic.opacity=.17+amount*.78;crystal.material.emissiveIntensity=.05+amount*1.8;crystal.position.y=1.23+(amount?Math.sin(seconds*1.5)*.045:0);crystal.rotation.y=seconds*.25;
