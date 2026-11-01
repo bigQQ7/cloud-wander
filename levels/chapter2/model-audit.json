@@ -1,0 +1,1014 @@
+[
+  {
+    "id": 0,
+    "name": "fantasy+castle+tower+3d+model (2)",
+    "vertices": 74247,
+    "triangles": 93948,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.38473382592201233,
+        0.0,
+        -0.35547298192977905
+      ],
+      [
+        0.38473382592201233,
+        0.9708986282348633,
+        0.35547298192977905
+      ]
+    ],
+    "sha256": "b8f84854bb2dca83cd9a001a770ce833054efcd052ae37d1e9beb49d86942011"
+  },
+  {
+    "id": 1,
+    "name": "floating+island+3d+model (2)",
+    "vertices": 87865,
+    "triangles": 103309,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 1937,
+    "nonmanifold_edges": 81,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4685899615287781,
+        0.0,
+        -0.48240405321121216
+      ],
+      [
+        0.4685899615287781,
+        0.7934631705284119,
+        0.48240405321121216
+      ]
+    ],
+    "sha256": "c51c1465d60f30fc88be2e9ed6a4fbbe2d58e0d6124600403b861eb6a9ffe237"
+  },
+  {
+    "id": 2,
+    "name": "floating+rocky+pillar+3d+model (1)",
+    "vertices": 92298,
+    "triangles": 109469,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 934,
+    "nonmanifold_edges": 24,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.2519494593143463,
+        0.0,
+        -0.2733648419380188
+      ],
+      [
+        0.2519494593143463,
+        0.9714230298995972,
+        0.2733648419380188
+      ]
+    ],
+    "sha256": "ad9aef9bef8482c63c40b94898093ce253cc67b988209d1f1557eaa3801cfc2d"
+  },
+  {
+    "id": 3,
+    "name": "floating+rocky+pillar+3d+model (2)",
+    "vertices": 92298,
+    "triangles": 109469,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 934,
+    "nonmanifold_edges": 24,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.2519494593143463,
+        0.0,
+        -0.2733648419380188
+      ],
+      [
+        0.2519494593143463,
+        0.9714230298995972,
+        0.2733648419380188
+      ]
+    ],
+    "sha256": "ef3f2d65b9a880b60a9e5ab3f6902626d3388d23f51fc99d68b4667873b42fd5"
+  },
+  {
+    "id": 4,
+    "name": "floral+arch+3d+model",
+    "vertices": 144229,
+    "triangles": 138716,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 7003,
+    "nonmanifold_edges": 311,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.16132842004299164,
+        0.0,
+        -0.47769373655319214
+      ],
+      [
+        0.16132842004299164,
+        0.9502135515213013,
+        0.47769373655319214
+      ]
+    ],
+    "sha256": "dad8b70199805b22b164b961b9e0d4f3790528ad5bf581635facb751dd18ca49"
+  },
+  {
+    "id": 5,
+    "name": "ice+slide+3d+model",
+    "vertices": 54123,
+    "triangles": 94850,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 93,
+    "nonmanifold_edges": 1,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.48968401551246643,
+        0.0,
+        -0.3264209032058716
+      ],
+      [
+        0.48968401551246643,
+        0.9726693630218506,
+        0.3264209032058716
+      ]
+    ],
+    "sha256": "1eb37c1bd7be2e31d56a4b60858df4ac909c0c499a162d88a8bcd662b65bc13b"
+  },
+  {
+    "id": 6,
+    "name": "ornate+arch+3d+model",
+    "vertices": 69724,
+    "triangles": 89996,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 12,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.0781131312251091,
+        0.0,
+        -0.2913311719894409
+      ],
+      [
+        0.0781131312251091,
+        0.9617010951042175,
+        0.2913311719894409
+      ]
+    ],
+    "sha256": "3cad4c1c9b4418c0e1c4f13154486f06c064ed4cffc7e0b368ec651308c266ed"
+  },
+  {
+    "id": 7,
+    "name": "ornate+archway+3d+model",
+    "vertices": 140127,
+    "triangles": 137789,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 3926,
+    "nonmanifold_edges": 179,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.1613549292087555,
+        0.0,
+        -0.34992802143096924
+      ],
+      [
+        0.1613549292087555,
+        0.9554840326309204,
+        0.34992802143096924
+      ]
+    ],
+    "sha256": "43c6226fb32934ad551ba682cf767e5a49708007e8e5f1f6c3632779bb4d01ff"
+  },
+  {
+    "id": 8,
+    "name": "ornate+beam+3d+model",
+    "vertices": 73309,
+    "triangles": 93630,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 630,
+    "nonmanifold_edges": 19,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.13013005256652832,
+        0.0,
+        -0.49074995517730713
+      ],
+      [
+        0.13013005256652832,
+        0.1906869262456894,
+        0.49074995517730713
+      ]
+    ],
+    "sha256": "a248a6b609396857300b65a08023f0d4ca060edae32fff483372683c8219286e"
+  },
+  {
+    "id": 9,
+    "name": "ornate+bone+3d+model (1)",
+    "vertices": 68406,
+    "triangles": 88348,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.1331482231616974,
+        0.0,
+        -0.4897041320800781
+      ],
+      [
+        0.1331482231616974,
+        0.5565176010131836,
+        0.4897041320800781
+      ]
+    ],
+    "sha256": "d2910597d851aff013acc24aec844c6a41561dff890f7af736de2f6a4af9ccc8"
+  },
+  {
+    "id": 10,
+    "name": "ornate+bookshelf+3d+model",
+    "vertices": 100704,
+    "triangles": 117697,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2644,
+    "nonmanifold_edges": 163,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.12645791471004486,
+        0.0,
+        -0.3207302987575531
+      ],
+      [
+        0.12645791471004486,
+        0.9669050574302673,
+        0.3207302987575531
+      ]
+    ],
+    "sha256": "f54fb6723f43ea496b17b472b84d50bb75e55bf21b819b7487181cd92fa5a17f"
+  },
+  {
+    "id": 11,
+    "name": "ornate+chain+3d+model",
+    "vertices": 71596,
+    "triangles": 94299,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 141,
+    "nonmanifold_edges": 1,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.09018558263778687,
+        0.0,
+        -0.09554195404052734
+      ],
+      [
+        0.09018558263778687,
+        0.9770681262016296,
+        0.09554195404052734
+      ]
+    ],
+    "sha256": "6596720293115b61aac3a2a63dcc3da4b211d609666d8611d6d595c3925ae540"
+  },
+  {
+    "id": 12,
+    "name": "ornate+curtain+arch+3d+model",
+    "vertices": 103029,
+    "triangles": 113624,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2341,
+    "nonmanifold_edges": 147,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.14384114742279053,
+        0.0,
+        -0.4683508276939392
+      ],
+      [
+        0.14384114742279053,
+        0.969854474067688,
+        0.4683508276939392
+      ]
+    ],
+    "sha256": "ecb587225eaa864c4481bc55c00b3a6cc183d1eeffc9cc5a9a55107b98b022cd"
+  },
+  {
+    "id": 13,
+    "name": "ornate+doorway+frame+3d+model",
+    "vertices": 110961,
+    "triangles": 119203,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2259,
+    "nonmanifold_edges": 108,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.11451438069343567,
+        0.0,
+        -0.4821510910987854
+      ],
+      [
+        0.11451438069343567,
+        0.9085516929626465,
+        0.4821510910987854
+      ]
+    ],
+    "sha256": "cd9cf5c30db2f25aacd882993548b615bec1596d1403d6547ac91f524e668113"
+  },
+  {
+    "id": 14,
+    "name": "ornate+fantasy+cannon+3d+model (1)",
+    "vertices": 90069,
+    "triangles": 109712,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 996,
+    "nonmanifold_edges": 56,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.2030542492866516,
+        0.0,
+        -0.48632222414016724
+      ],
+      [
+        0.2030542492866516,
+        0.941887617111206,
+        0.48632222414016724
+      ]
+    ],
+    "sha256": "5eaaa1cfbb42d9f26314507839d6dd4c730d64f67a63c21c4f1593431a8476ae"
+  },
+  {
+    "id": 15,
+    "name": "ornate+fantasy+orb+3d+model",
+    "vertices": 107204,
+    "triangles": 119641,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2578,
+    "nonmanifold_edges": 99,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.27777546644210815,
+        0.0,
+        -0.476358026266098
+      ],
+      [
+        0.27777546644210815,
+        0.9465113878250122,
+        0.476358026266098
+      ]
+    ],
+    "sha256": "2f3bf5d932b0ff3abde3316b258b36496b4680fc349211582fbd458468dc8987"
+  },
+  {
+    "id": 16,
+    "name": "ornate+floral+arch+3d+model",
+    "vertices": 92323,
+    "triangles": 107768,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 655,
+    "nonmanifold_edges": 24,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.24539029598236084,
+        0.0,
+        -0.4852117896080017
+      ],
+      [
+        0.24539029598236084,
+        0.5201513767242432,
+        0.4852117896080017
+      ]
+    ],
+    "sha256": "32b7833ee72a5e70f5d537effe9e76744dfd3d5cf759a69c71690aec434bd858"
+  },
+  {
+    "id": 17,
+    "name": "ornate+fountain+3d+model (1)",
+    "vertices": 93138,
+    "triangles": 106262,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 1591,
+    "nonmanifold_edges": 40,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4760950803756714,
+        0.0,
+        -0.47559022903442383
+      ],
+      [
+        0.4760950803756714,
+        0.9721082448959351,
+        0.47559022903442383
+      ]
+    ],
+    "sha256": "e736c530a419de491526c45a30a16ecaac34b5c03c6563cc6d61474137973311"
+  },
+  {
+    "id": 18,
+    "name": "ornate+frame+painting+3d+model",
+    "vertices": 89969,
+    "triangles": 105316,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 1088,
+    "nonmanifold_edges": 34,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.26967349648475647,
+        0.0,
+        -0.48831498622894287
+      ],
+      [
+        0.26967349648475647,
+        0.9262198805809021,
+        0.48831498622894287
+      ]
+    ],
+    "sha256": "bee70afea81944ab5136740b4cf0a4ab8a2ad5e51373b1366ff83f0acdce2dd9"
+  },
+  {
+    "id": 19,
+    "name": "ornate+garden+gate+3d+model",
+    "vertices": 121741,
+    "triangles": 125472,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 4205,
+    "nonmanifold_edges": 129,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.09333006292581558,
+        0.0,
+        -0.47777628898620605
+      ],
+      [
+        0.09333006292581558,
+        0.8929435014724731,
+        0.47777628898620605
+      ]
+    ],
+    "sha256": "0b51d4dcebec9b1477664d82d3dfdcd8eb91c4923ea3d92007896ab7e2968d06"
+  },
+  {
+    "id": 20,
+    "name": "ornate+gate+3d+model (1)",
+    "vertices": 70557,
+    "triangles": 89767,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 53,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.09502433985471725,
+        0.0,
+        -0.4874781668186188
+      ],
+      [
+        0.09502433985471725,
+        0.6860969066619873,
+        0.4874781668186188
+      ]
+    ],
+    "sha256": "fa1185b1e77382777c99fb7194a3cec2fd5a75894dcc662169b6a400bda10cf7"
+  },
+  {
+    "id": 21,
+    "name": "ornate+gate+3d+model",
+    "vertices": 128188,
+    "triangles": 129467,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 4784,
+    "nonmanifold_edges": 334,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.09322646260261536,
+        0.0,
+        -0.4808759391307831
+      ],
+      [
+        0.09322646260261536,
+        0.9177016019821167,
+        0.4808759391307831
+      ]
+    ],
+    "sha256": "20430a10809b03a217e17bcb8c95cdc2c91aa455506cc64b228a5516b4378e6a"
+  },
+  {
+    "id": 22,
+    "name": "ornate+gazebo+3d+model",
+    "vertices": 78571,
+    "triangles": 98039,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 62,
+    "nonmanifold_edges": 9,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4559791386127472,
+        0.0,
+        -0.4746178984642029
+      ],
+      [
+        0.4559791386127472,
+        0.9760639667510986,
+        0.4746178984642029
+      ]
+    ],
+    "sha256": "4b4b051ec024a905661eb7dafac75bf70ba210ea24aab8e7a0f4767f12c38e09"
+  },
+  {
+    "id": 23,
+    "name": "ornate+marble+column+3d+model",
+    "vertices": 71464,
+    "triangles": 92391,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 3,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.10746997594833374,
+        0.0,
+        -0.10646086186170578
+      ],
+      [
+        0.10746997594833374,
+        0.9745113253593445,
+        0.10646086186170578
+      ]
+    ],
+    "sha256": "53c90d832fc7139100fff56b0ad55c64bf998eed42bec32075a6d05d9efbfd25"
+  },
+  {
+    "id": 24,
+    "name": "ornate+red+rug+3d+model",
+    "vertices": 75180,
+    "triangles": 100114,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 12,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.033387355506420135,
+        0.0,
+        -0.33771955966949463
+      ],
+      [
+        0.033387355506420135,
+        0.9755676984786987,
+        0.33771955966949463
+      ]
+    ],
+    "sha256": "fe642c73b9593d6cad7aba5ac2e9d817d0c2043e699068c9237fa880e4dbe21d"
+  },
+  {
+    "id": 25,
+    "name": "ornate+round+mosaic+3d+model",
+    "vertices": 56897,
+    "triangles": 86290,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 23,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4878244400024414,
+        0.0,
+        -0.4889471232891083
+      ],
+      [
+        0.4878244400024414,
+        0.24296019971370697,
+        0.4889471232891083
+      ]
+    ],
+    "sha256": "6522e088b561f84af491960d81182cb5f5f869effd37e9109fc28db0b1eeb7ff"
+  },
+  {
+    "id": 26,
+    "name": "ornate+stairs+3d+model",
+    "vertices": 101353,
+    "triangles": 116410,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 4622,
+    "nonmanifold_edges": 131,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4539725184440613,
+        0.0,
+        -0.47642016410827637
+      ],
+      [
+        0.4539725184440613,
+        0.7041590809822083,
+        0.47642016410827637
+      ]
+    ],
+    "sha256": "58368fa004b9713b3f30a601f79ea8cb4b5e80807eb39c7bff3d7594fdbefd4f"
+  },
+  {
+    "id": 27,
+    "name": "ornate+tile+3d+model",
+    "vertices": 58516,
+    "triangles": 91644,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 14,
+    "nonmanifold_edges": 1,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4876287579536438,
+        0.0,
+        -0.4880758225917816
+      ],
+      [
+        0.4876287579536438,
+        0.20772695541381836,
+        0.4880758225917816
+      ]
+    ],
+    "sha256": "c3c40b5a68285e23830fb8a895e9604bb079377eac8abfc7275cee5b06cd4359"
+  },
+  {
+    "id": 28,
+    "name": "ornate+treasure+chest+3d+model",
+    "vertices": 96115,
+    "triangles": 110476,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2358,
+    "nonmanifold_edges": 129,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.42710572481155396,
+        0.0,
+        -0.4788080155849457
+      ],
+      [
+        0.42710572481155396,
+        0.5826129913330078,
+        0.4788080155849457
+      ]
+    ],
+    "sha256": "5e6d0c413c3847636036bcd90bfa3e102bd71a8a1ec5d1ab9030a3a69581c901"
+  },
+  {
+    "id": 29,
+    "name": "pink+cloud+3d+model",
+    "vertices": 70348,
+    "triangles": 102248,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4826931357383728,
+        0.0,
+        -0.48956942558288574
+      ],
+      [
+        0.4826931357383728,
+        0.48072779178619385,
+        0.48956942558288574
+      ]
+    ],
+    "sha256": "8e95e8f8859a3d11199028a092a0577ddf17a26fed15ced946b9f3f18fc89d2f"
+  },
+  {
+    "id": 30,
+    "name": "pink+lily+3d+model",
+    "vertices": 72388,
+    "triangles": 96000,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 267,
+    "nonmanifold_edges": 13,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.23952750861644745,
+        0.0,
+        -0.4192986488342285
+      ],
+      [
+        0.23952750861644745,
+        0.9793788194656372,
+        0.4192986488342285
+      ]
+    ],
+    "sha256": "63489d741b7a76eff5cd7993dca592f1c8acb92391c1e32eb24e080771af0158"
+  },
+  {
+    "id": 31,
+    "name": "pink+lotus+pedestal+3d+model",
+    "vertices": 63325,
+    "triangles": 93073,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 73,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.4885196387767792,
+        0.0,
+        -0.48740535974502563
+      ],
+      [
+        0.4885196387767792,
+        0.427372545003891,
+        0.48740535974502563
+      ]
+    ],
+    "sha256": "4f025da54be3edd6bb38e58c6adeb596a3f0d7aca84f44bf45eaf71012319300"
+  },
+  {
+    "id": 32,
+    "name": "pink+rose+bush+3d+model (1)",
+    "vertices": 116124,
+    "triangles": 127253,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 992,
+    "nonmanifold_edges": 26,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.3546273708343506,
+        0.0,
+        -0.48260563611984253
+      ],
+      [
+        0.3546273708343506,
+        0.9117830991744995,
+        0.48260563611984253
+      ]
+    ],
+    "sha256": "81df4e4af371e5380ce67aed21712287f375b2d09f4c7342b00cd1a54fd7aa84"
+  },
+  {
+    "id": 33,
+    "name": "pumpkin+lantern+3d+model (1)",
+    "vertices": 76661,
+    "triangles": 96083,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 201,
+    "nonmanifold_edges": 20,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.38387954235076904,
+        0.0,
+        -0.4485149085521698
+      ],
+      [
+        0.38387954235076904,
+        0.9781777858734131,
+        0.4485149085521698
+      ]
+    ],
+    "sha256": "3fcc75205199a2b53bd251c19e6d2b894932502bd71637f8d07d2474cce53142"
+  },
+  {
+    "id": 34,
+    "name": "spiral+topiary+3d+model",
+    "vertices": 108705,
+    "triangles": 114215,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2442,
+    "nonmanifold_edges": 94,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.2532898187637329,
+        0.0,
+        -0.3425244688987732
+      ],
+      [
+        0.2532898187637329,
+        0.96637362241745,
+        0.3425244688987732
+      ]
+    ],
+    "sha256": "765d4ea77437ac7232b4a9415ec4fb236ae6131170ef5276f8c744532ef9beac"
+  },
+  {
+    "id": 35,
+    "name": "sunflower+3d+model (1)",
+    "vertices": 72404,
+    "triangles": 92529,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 96,
+    "nonmanifold_edges": 5,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.15531498193740845,
+        0.0,
+        -0.3041413128376007
+      ],
+      [
+        0.15531498193740845,
+        0.9766625761985779,
+        0.3041413128376007
+      ]
+    ],
+    "sha256": "debc6cd8ccb654414011b8355252c1907d6c1569250a0c6e63318d564801f569"
+  },
+  {
+    "id": 36,
+    "name": "wisteria+branch+3d+model",
+    "vertices": 110643,
+    "triangles": 113312,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 2317,
+    "nonmanifold_edges": 74,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.12028547376394272,
+        0.0,
+        -0.48081228137016296
+      ],
+      [
+        0.12028547376394272,
+        0.8126928806304932,
+        0.48081228137016296
+      ]
+    ],
+    "sha256": "e9c6bb2c98ba536b8da1b08ebdd2fa813ef9db64dcc93fbf6fe38215a8a036f1"
+  },
+  {
+    "id": 37,
+    "name": "wooden+crate+3d+model (1)",
+    "vertices": 61091,
+    "triangles": 91025,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 77,
+    "nonmanifold_edges": 0,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.3955494463443756,
+        0.0,
+        -0.4895533323287964
+      ],
+      [
+        0.3955494463443756,
+        0.976999044418335,
+        0.4895533323287964
+      ]
+    ],
+    "sha256": "acafd27ccc402aa11a384620ddd12e04951207e579cc11ec3ee3ca9f49433559"
+  },
+  {
+    "id": 38,
+    "name": "ice+stalactite+3d+model (1)",
+    "vertices": 62195,
+    "triangles": 95128,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 14,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.3006563186645508,
+        0.0,
+        -0.30746960639953613
+      ],
+      [
+        0.3006563186645508,
+        0.9796894788742065,
+        0.30746960639953613
+      ]
+    ],
+    "sha256": "4df45799adabed9221427990c1d4600364fccfdbfb9fd865e26ae3b492aa959c"
+  },
+  {
+    "id": 39,
+    "name": "ornate+tower+3d+model",
+    "vertices": 74053,
+    "triangles": 87518,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 135,
+    "nonmanifold_edges": 3,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.13073979318141937,
+        0.0,
+        -0.13870760798454285
+      ],
+      [
+        0.13073979318141937,
+        0.9743467569351196,
+        0.13870760798454285
+      ]
+    ],
+    "sha256": "a11076f904af53d33002677c3f27d86a4af448d618680b7e6a030d20dab801ef"
+  },
+  {
+    "id": 40,
+    "name": "ornate+chandelier+3d+model",
+    "vertices": 75490,
+    "triangles": 96201,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 118,
+    "nonmanifold_edges": 1,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.33211493492126465,
+        0.0,
+        -0.4858710765838623
+      ],
+      [
+        0.33211493492126465,
+        0.620711624622345,
+        0.4858710765838623
+      ]
+    ],
+    "sha256": "2c79ebe806e50f5d926d24c51c246e02e50955a59d42dd847c6225ca9f3e8b1b"
+  },
+  {
+    "id": 41,
+    "name": "ornate+bridge+3d+model",
+    "vertices": 69792,
+    "triangles": 92211,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 194,
+    "nonmanifold_edges": 12,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.06610174477100372,
+        0.0,
+        -0.49020230770111084
+      ],
+      [
+        0.06610174477100372,
+        0.23472872376441956,
+        0.49020230770111084
+      ]
+    ],
+    "sha256": "b5efcfebebe0c474802960e21eb9550ae9cb7a471edc73968eb5610d2c4c1eef"
+  },
+  {
+    "id": 42,
+    "name": "ornate+display+panel+3d+model (1)",
+    "vertices": 77626,
+    "triangles": 98209,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 104,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.08647537231445312,
+        0.0,
+        -0.4892027974128723
+      ],
+      [
+        0.08647537231445312,
+        0.7810342311859131,
+        0.4892027974128723
+      ]
+    ],
+    "sha256": "2dd53db9df752677b6529ed3b9e59a53ade78c3d1824f7eed019ab214c437f88"
+  },
+  {
+    "id": 43,
+    "name": "ornate+ceremonial+hammer+3d+model",
+    "vertices": 67672,
+    "triangles": 91835,
+    "finite_and_indices_valid": true,
+    "boundary_edges": 271,
+    "nonmanifold_edges": 9,
+    "degenerate_triangles": 0,
+    "bounds": [
+      [
+        -0.40413498878479004,
+        0.0,
+        -0.48887139558792114
+      ],
+      [
+        0.40413498878479004,
+        0.6919231414794922,
+        0.48887139558792114
+      ]
+    ],
+    "sha256": "496f24728415b0364fbc3abb02de664ca074855a8e4529addde4eda729f1fae5"
+  }
+]

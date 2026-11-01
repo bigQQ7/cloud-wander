@@ -1,0 +1,140 @@
+[
+  {
+    "id": 38,
+    "filled_small_simple_loops": 2,
+    "added_triangles": 14,
+    "before_boundary_edges": 14,
+    "after_boundary_edges": 0,
+    "remaining_components": []
+  },
+  {
+    "id": 39,
+    "filled_small_simple_loops": 13,
+    "added_triangles": 94,
+    "before_boundary_edges": 135,
+    "after_boundary_edges": 41,
+    "remaining_components": [
+      {
+        "vertices": 20,
+        "span": 0.0015026592882350087,
+        "simple": false
+      },
+      {
+        "vertices": 7,
+        "span": 0.0069630807265639305,
+        "simple": false
+      },
+      {
+        "vertices": 13,
+        "span": 0.0018874352099373937,
+        "simple": false
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "filled_small_simple_loops": 18,
+    "added_triangles": 101,
+    "before_boundary_edges": 118,
+    "after_boundary_edges": 17,
+    "remaining_components": [
+      {
+        "vertices": 3,
+        "span": 0.0018751552561298013,
+        "simple": false
+      },
+      {
+        "vertices": 9,
+        "span": 0.020761294290423393,
+        "simple": true
+      },
+      {
+        "vertices": 6,
+        "span": 0.013120419345796108,
+        "simple": true
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "filled_small_simple_loops": 18,
+    "added_triangles": 102,
+    "before_boundary_edges": 194,
+    "after_boundary_edges": 92,
+    "remaining_components": [
+      {
+        "vertices": 65,
+        "span": 0.005603006575256586,
+        "simple": false
+      },
+      {
+        "vertices": 9,
+        "span": 0.0025508857797831297,
+        "simple": false
+      },
+      {
+        "vertices": 11,
+        "span": 0.003862302750349045,
+        "simple": false
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "filled_small_simple_loops": 10,
+    "added_triangles": 90,
+    "before_boundary_edges": 104,
+    "after_boundary_edges": 14,
+    "remaining_components": [
+      {
+        "vertices": 4,
+        "span": 0.012445575557649136,
+        "simple": true
+      },
+      {
+        "vertices": 8,
+        "span": 0.01226299349218607,
+        "simple": true
+      },
+      {
+        "vertices": 3,
+        "span": 0.002348562702536583,
+        "simple": false
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "filled_small_simple_loops": 18,
+    "added_triangles": 155,
+    "before_boundary_edges": 271,
+    "after_boundary_edges": 116,
+    "remaining_components": [
+      {
+        "vertices": 24,
+        "span": 0.005502306856215,
+        "simple": false
+      },
+      {
+        "vertices": 43,
+        "span": 0.004913541954010725,
+        "simple": false
+      },
+      {
+        "vertices": 34,
+        "span": 0.003404863877221942,
+        "simple": false
+      },
+      {
+        "vertices": 11,
+        "span": 0.03845773637294769,
+        "simple": true
+      },
+      {
+        "vertices": 3,
+        "span": 0.0026819477789103985,
+        "simple": false
+      }
+    ]
+  }
+]

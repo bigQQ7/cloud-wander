@@ -1,0 +1,56 @@
+[
+  {
+    "id": 38,
+    "finite": true,
+    "indices_valid": true,
+    "triangles": 95142,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0
+  },
+  {
+    "id": 39,
+    "finite": true,
+    "indices_valid": true,
+    "triangles": 87612,
+    "boundary_edges": 41,
+    "nonmanifold_edges": 3,
+    "degenerate_triangles": 0
+  },
+  {
+    "id": 40,
+    "finite": true,
+    "indices_valid": true,
+    "triangles": 96302,
+    "boundary_edges": 17,
+    "nonmanifold_edges": 1,
+    "degenerate_triangles": 0
+  },
+  {
+    "id": 41,
+    "finite": true,
+    "indices_valid": true,
+    "triangles": 92313,
+    "boundary_edges": 92,
+    "nonmanifold_edges": 12,
+    "degenerate_triangles": 0
+  },
+  {
+    "id": 42,
+    "finite": true,
+    "indices_valid": true,
+    "triangles": 98299,
+    "boundary_edges": 14,
+    "nonmanifold_edges": 2,
+    "degenerate_triangles": 0
+  },
+  {
+    "id": 43,
+    "finite": true,
+    "indices_valid": true,
+    "triangles": 91990,
+    "boundary_edges": 116,
+    "nonmanifold_edges": 9,
+    "degenerate_triangles": 0
+  }
+]

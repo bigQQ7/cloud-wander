@@ -1,0 +1,1 @@
+Pond optical shading adapted from Ultra-Water, Humpalumps. Source archive ce9248fa20afbdf63fd4c11709f68d7368aca0a0. MIT license in ULTRA-WATER-LICENSE.txt. Uses simplified procedural waves and bottom refraction; does not include the FFT ocean renderer or planar reflection pipeline.
