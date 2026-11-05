@@ -1,4 +1,4 @@
-import {updateAssetDetails} from '../shared/web-assets.js?v=3';
+import {updateAssetDetails} from '../shared/web-assets.js?v=4';
 import {levelUI} from '../../ui/config.js';
 import {createBGM} from '../shared/bgm.js?v=bgm3';createBGM('sky');
 import {createUISystem} from '../../ui/system.js?v=prio1';
@@ -10,7 +10,7 @@ let swing;const SWING_TREE_SCALE=1.5;
 import {createGardenPaths} from './garden-paths.js?v=mvp3';
 import {createPond} from './pond.js?v=mvp11';
 let pond;
-import {createTreehouseRoom} from './treehouse-room.js?v=stream3';
+import {createTreehouseRoom} from './treehouse-room.js?v=quality4';
 let treehouseRoom;
 import * as THREE from 'three';
 import {computeBoundsTree,acceleratedRaycast} from './vendor/three-mesh-bvh.module.js';
@@ -31,8 +31,8 @@ import {VolumeFog} from './volume-fog.js?v=mvp3';
 import {createMeadow,styleMeadowGround} from './meadow.js?v=grass1';
 import {createChapter} from './chapter.js?v=prio1';
 import {createWindMechanism} from './wind-mechanism.js?v=small1';
-import {createHero} from './hero.js?v=stream3';
-import {createRiggedAssets} from './rigged-assets.js?v=stream3';
+import {createHero} from './hero.js?v=quality4';
+import {createRiggedAssets} from './rigged-assets.js?v=quality4';
 let lastAnimationShadow=-1;
 import {addTerrainFoundation} from './terrain-foundation.js?v=mvp3';
 import {createSceneEditor} from './scene-editor.js?v=ground8';
@@ -208,13 +208,13 @@ function parseMesh(buffer,info){const view=new DataView(buffer);const nv=view.ge
  for(let i=0;i<nt;i++){const base=8+nv*32+i*16;for(let j=0;j<3;j++)indices[i*3+j]=view.getInt32(base+j*4,true);const slot=view.getInt32(base+12,true);if(slot!==lastSlot){if(lastSlot>=0)geom.addGroup(start,i*3-start,lastSlot);start=i*3;lastSlot=slot;}}if(lastSlot>=0)geom.addGroup(start,nt*3-start,lastSlot);geom.setIndex(new THREE.BufferAttribute(indices,1));geom.computeBoundingBox();geom.computeBoundingSphere();return geom;}
 async function loadMeshData(url){
  if('DecompressionStream' in globalThis){
-  const response=await fetch(url+'.gz?v=stream3');
+  const response=await fetch(url+'.gz?v=quality4');
   if(response.ok){const bytes=new Uint8Array(await response.arrayBuffer());return bytes[0]===31&&bytes[1]===139?new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer():bytes.buffer;}
   if(response.status!==404)throw new Error('模型读取失败');
  }
  const response=await fetch(url);if(!response.ok)throw new Error('模型读取失败');return response.arrayBuffer();
 }
-async function load(){(window.__lt||(window.__lt={}))['start']=performance.now()|0;await skyReady;(window.__lt||(window.__lt={}))['sky']=performance.now()|0;const response=await fetch('./assets/scene.json?v=stream3');if(!response.ok)throw new Error('场景读取失败');const data=await response.json(),materials=new Map(),tl=new THREE.TextureLoader(); const grouped=new Map();for(const o of data.objects){if(o.name==='treehouse'||/trailing moss/i.test(o.name))continue;if(/^(01 • Cloud traveller|01 • Awakening stone gate|04 • Treehouse timber shelter|04 • Wooden balcony|Sun disk|Cloud sea|Horizon cumulus|Ancient tree • trunk|Tree branch|Tree crown|Tree • exposed root|Tree • leaf lace|03 • Great windmill|Meadow • daisies|Meadow • fine grass)/.test(o.name))continue;if(!grouped.has(o.mesh))grouped.set(o.mesh,[]);grouped.get(o.mesh).push(o);}
+async function load(){(window.__lt||(window.__lt={}))['start']=performance.now()|0;await skyReady;(window.__lt||(window.__lt={}))['sky']=performance.now()|0;const response=await fetch('./assets/scene.json?v=quality4');if(!response.ok)throw new Error('场景读取失败');const data=await response.json(),materials=new Map(),tl=new THREE.TextureLoader(); const grouped=new Map();for(const o of data.objects){if(o.name==='treehouse'||/trailing moss/i.test(o.name))continue;if(/^(01 • Cloud traveller|01 • Awakening stone gate|04 • Treehouse timber shelter|04 • Wooden balcony|Sun disk|Cloud sea|Horizon cumulus|Ancient tree • trunk|Tree branch|Tree crown|Tree • exposed root|Tree • leaf lace|03 • Great windmill|Meadow • daisies|Meadow • fine grass)/.test(o.name))continue;if(!grouped.has(o.mesh))grouped.set(o.mesh,[]);grouped.get(o.mesh).push(o);}
 
  const activeMeshes=data.meshes.filter(m=>grouped.has(m.id));
  const usedMaterials=new Set(activeMeshes.flatMap(m=>m.materials));

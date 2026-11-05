@@ -5,7 +5,7 @@ import {createGameAudio} from '../shared/game-audio.js';
 import {createResonanceFX} from '../shared/resonance-fx.js';
 import {createGame,normalizeSave,SAVE_KEY,missingExit} from './game-core.mjs?v=polish2';
 import {lanePoint,LILIES,SLIDE,slideY,BOX_U,U_END,surfacesAt,LANE_ENTRY} from './lane-data.mjs?v=1793364298';
-import {createHero} from './hero.js?v=stream3';
+import {createHero} from './hero.js?v=quality4';
 
 export function createGameplay({T,scene,world,camera,controls,renderer,westBridge,returnBridge,cloudBeam,stairStart,stairEnd,stairCount,cube,lane,lake}){
   let sharedUI;const gameAudio=createGameAudio();let audioHadKey=null;

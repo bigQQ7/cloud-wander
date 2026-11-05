@@ -1,4 +1,4 @@
-import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
+import {configureGLTFLoader} from '../shared/web-assets.js?v=4';
 import {createResonanceFX} from '../shared/resonance-fx.js';
 import * as THREE from 'three';
 import {createLocomotionLayer} from './hero-locomotion.js?v=walk1';

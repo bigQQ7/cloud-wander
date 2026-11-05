@@ -1,4 +1,4 @@
-import {detailTextures} from './texture-details.js?v=3';
+import {detailTextures} from './texture-details.js?v=4';
 import {MeshoptDecoder} from '../../ui/vendor/meshopt_decoder.mjs';
 
 // Keep model/animation URLs stable between releases; only change the version with the assets.
@@ -6,7 +6,7 @@ export function configureGLTFLoader(loader){
  loader.setMeshoptDecoder(MeshoptDecoder);
  const load=loader.loadAsync.bind(loader);
  loader.loadAsync=async function(url,onProgress){
-  const resource=new URL(url,document.baseURI);resource.searchParams.set('v','web-assets-3');
+  const resource=new URL(url,document.baseURI);resource.searchParams.set('v','web-assets-4');
   if(!('DecompressionStream' in globalThis))return load(resource.href,onProgress);
   const compressed=new URL(resource);compressed.pathname+='.gz';
   let response;
@@ -41,17 +41,22 @@ function pumpDetails(){
 }
 // Geometry, collision, and interactions are ready before play. Detail maps follow the camera.
 export function updateAssetDetails(scene,camera){
- const now=performance.now();if(now-lastDetailCheck<1000||document.querySelector('.cloud-loading'))return;lastDetailCheck=now;
+ const now=performance.now();if(now-lastDetailCheck<500||document.querySelector('.cloud-loading'))return;lastDetailCheck=now;
  const candidates=new Map();
  scene.traverse(object=>{
   if(!object.isMesh)return;for(let parent=object;parent;parent=parent.parent)if(!parent.visible)return;
-  const matrix=object.matrixWorld.elements,distance=Math.hypot(matrix[12]-camera.position.x,matrix[13]-camera.position.y,matrix[14]-camera.position.z);
-  if(distance>32)return;
+  if(!object.geometry.boundingSphere)object.geometry.computeBoundingSphere?.();
+  const sphere=object.geometry.boundingSphere;if(!sphere)return;
+  const center=sphere.center.clone().applyMatrix4(object.matrixWorld),m=object.matrixWorld.elements;
+  const scale=Math.max(Math.hypot(m[0],m[1],m[2]),Math.hypot(m[4],m[5],m[6]),Math.hypot(m[8],m[9],m[10]));
+  const distance=Math.max(0,center.distanceTo(camera.position)-sphere.radius*scale);
+  if(distance>48)return;
   for(const material of Array.isArray(object.material)?object.material:[object.material])for(const texture of Object.values(material)){
-   if(!texture?.isTexture||!texture.userData.cloudDetail||texture.userData.cloudDetailLoaded||queued.has(texture)||(texture.userData.cloudDetailRetry||0)>1)continue;
-   candidates.set(texture,Math.min(candidates.get(texture)??Infinity,distance));
+   if(!texture?.isTexture||!texture.userData.cloudDetail||texture.userData.cloudDetailLoaded||(texture.userData.cloudDetailRetry||0)>1)continue;
+   texture.userData.cloudDetailDistance=distance;if(!queued.has(texture))candidates.set(texture,Math.min(candidates.get(texture)??Infinity,distance));
   }
  });
  for(const [texture] of [...candidates].sort((a,b)=>a[1]-b[1])){queued.add(texture);detailQueue.push(texture);}
+ detailQueue.sort((a,b)=>(a.userData.cloudDetailDistance??Infinity)-(b.userData.cloudDetailDistance??Infinity));
  pumpDetails();
 }

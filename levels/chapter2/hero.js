@@ -1,4 +1,4 @@
-import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
+import {configureGLTFLoader} from '../shared/web-assets.js?v=4';
 // 第二章真实角色模型 + 动作系统（适配自第一章 hero.js）
 // 依赖 assets/hero.glb（hero-v31-round 圆润版，含 Idle/Walk/Run/Jump/Fall 动作）
 import {createLocomotionLayer} from './hero-locomotion.js?v=1793364298';

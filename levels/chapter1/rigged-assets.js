@@ -1,4 +1,4 @@
-import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
+import {configureGLTFLoader} from '../shared/web-assets.js?v=4';
 import * as THREE from 'three';
 import {GLTFLoader} from './vendor/GLTFLoader.js?v=round-island2';
 import {clone} from './vendor/SkeletonUtils.js';

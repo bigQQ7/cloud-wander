@@ -1,4 +1,4 @@
-import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
+import {configureGLTFLoader} from '../shared/web-assets.js?v=4';
 import * as THREE from 'three';
 import {GLTFLoader} from './vendor/GLTFLoader.js?v=round-island2';
 export async function createTreehouseRoom({scene,renderer,canvas,player,controls,getMode,hero,outsideCamera,surfaces}){
