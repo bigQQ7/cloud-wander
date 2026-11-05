@@ -5,7 +5,7 @@ import {createGameAudio} from '../shared/game-audio.js';
 import {createResonanceFX} from '../shared/resonance-fx.js';
 import {createGame,normalizeSave,SAVE_KEY,missingExit} from './game-core.mjs?v=polish2';
 import {lanePoint,LILIES,SLIDE,slideY,BOX_U,U_END,surfacesAt,LANE_ENTRY} from './lane-data.mjs?v=1793364298';
-import {createHero} from './hero.js?v=prelanding5';
+import {createHero} from './hero.js?v=stream3';
 
 export function createGameplay({T,scene,world,camera,controls,renderer,westBridge,returnBridge,cloudBeam,stairStart,stairEnd,stairCount,cube,lane,lake}){
   let sharedUI;const gameAudio=createGameAudio();let audioHadKey=null;
@@ -40,7 +40,7 @@ export function createGameplay({T,scene,world,camera,controls,renderer,westBridg
   const hairM=new T.MeshStandardMaterial({color:'#ffffff',roughness:.95,emissive:'#fff2f8',emissiveIntensity:.25});
   const umbrella=new T.Group();for(const [x,y,z,r] of [[0,0,0,.42],[-.38,-.06,0,.3],[.38,-.06,0,.3],[0,-.04,-.3,.3],[0,-.04,.3,.3]]){const c=new T.Mesh(new T.SphereGeometry(r,12,10),hairM);c.position.set(x,y,z);c.scale.y=.6;umbrella.add(c);}umbrella.position.y=1.85;umbrella.visible=false;player.add(umbrella);
   const petal=new T.Mesh(new T.SphereGeometry(.75,20,10),new T.MeshStandardMaterial({color:'#ff9fcb',roughness:.6}));petal.scale.set(1.1,.18,1.5);petal.position.y=.05;petal.visible=false;player.add(petal);
-  createHero(T,scene).then(h=>{hero=h;heroReady=true;h.root.visible=false;}).catch(e=>console.warn('hero 加载失败，保留占位',e));
+  const heroPromise=createHero(T,scene).then(h=>{hero=h;heroReady=true;h.root.visible=false;}).catch(e=>{console.error('角色加载失败',e);throw e;});
 
   // ---------------- 梦境出口门（开门时中间镂空）+ 光圈
   const gateUniform={value:0};const exitGate=world.children.find(o=>o.userData.assetId===7);
@@ -284,7 +284,7 @@ if(h!==window.__ctxHint){window.__ctxHint=h;if(show){window.CloudGuide?.showHint
   }
 
   $('#game-selftest').onclick=async()=>{const out=$('#game-test-output');$('#game-selftest').disabled=true;out.style.display='block';out.textContent='正在验证完整任务流程…';const r=await runAcceptance(level);$('#game-selftest').disabled=false;out.textContent=(r.passed?'任务自测全部通过':'有流程需要修正')+'\n\n'+r.results.map(x=>(x.passed?'✓ ':'✗ ')+x.name).join('\n')+'\n\n点击关闭';out.onclick=()=>out.style.display='none';const el=document.createElement('pre');el.id='game-test-report';el.hidden=true;el.textContent=JSON.stringify(r);$('#game-test-report')?.remove();document.body.append(el);};
-  return {update};
+  return {update,ready:heroPromise};
 }
 
 // ======================= 自测：用同一套关卡与规则，在独立实例里把整章自动走一遍

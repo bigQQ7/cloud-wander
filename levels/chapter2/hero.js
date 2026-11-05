@@ -1,10 +1,11 @@
+import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
 // 第二章真实角色模型 + 动作系统（适配自第一章 hero.js）
 // 依赖 assets/hero.glb（hero-v31-round 圆润版，含 Idle/Walk/Run/Jump/Fall 动作）
 import {createLocomotionLayer} from './hero-locomotion.js?v=1793364298';
 
 export async function createHero(T, scene){
   const {GLTFLoader} = await import('./vendor/GLTFLoader.js?v=1793364298');
-  const loader = new GLTFLoader();
+  const loader = configureGLTFLoader(new GLTFLoader());
   const gltf = await loader.loadAsync('./assets/hero.glb?v=1793364298');
 
   const resonance=await loader.loadAsync('../shared/resonance.glb?v=1');gltf.animations.push(...resonance.animations.map(c=>{c.name='Resonance';return c;}));

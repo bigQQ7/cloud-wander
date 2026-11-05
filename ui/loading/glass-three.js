@@ -1,4 +1,4 @@
-import * as THREE from './vendor/three.module.js';
+import * as THREE from '../../levels/chapter1/vendor/three.module.js';
 window.createGlassRenderer=function(){
 const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(1100,320);renderer.setPixelRatio(1);renderer.setClearColor(0,0);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
 const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-460,460,134,-134,.1,5000);camera.position.set(0,0,1100);camera.lookAt(0,0,0);

@@ -1,3 +1,4 @@
+import {updateAssetDetails} from '../shared/web-assets.js?v=3';
 import {levelUI} from '../../ui/config.js';
 import {createBGM} from '../shared/bgm.js?v=bgm3';createBGM('sky');
 import {createUISystem} from '../../ui/system.js?v=prio1';
@@ -9,7 +10,7 @@ let swing;const SWING_TREE_SCALE=1.5;
 import {createGardenPaths} from './garden-paths.js?v=mvp3';
 import {createPond} from './pond.js?v=mvp11';
 let pond;
-import {createTreehouseRoom} from './treehouse-room.js?v=mvp9';
+import {createTreehouseRoom} from './treehouse-room.js?v=stream3';
 let treehouseRoom;
 import * as THREE from 'three';
 import {computeBoundsTree,acceleratedRaycast} from './vendor/three-mesh-bvh.module.js';
@@ -30,8 +31,8 @@ import {VolumeFog} from './volume-fog.js?v=mvp3';
 import {createMeadow,styleMeadowGround} from './meadow.js?v=grass1';
 import {createChapter} from './chapter.js?v=prio1';
 import {createWindMechanism} from './wind-mechanism.js?v=small1';
-import {createHero} from './hero.js?v=fist3';
-import {createRiggedAssets} from './rigged-assets.js?v=mvp3';
+import {createHero} from './hero.js?v=stream3';
+import {createRiggedAssets} from './rigged-assets.js?v=stream3';
 let lastAnimationShadow=-1;
 import {addTerrainFoundation} from './terrain-foundation.js?v=mvp3';
 import {createSceneEditor} from './scene-editor.js?v=ground8';
@@ -173,7 +174,7 @@ function routeFixups(){(window.__lt||(window.__lt={}))['fixStart']=performance.n
  const gate=pos('第一段记忆 · 触碰点'),wind=pos('风纹机关台'),bell=pos('回声风铃 · 修复互动'),lift=pos('风托平台 · 塔顶升降台');let made=0;
  if(gate&&wind)made+=buildStair(gate.x,gate.z,wind.x,wind.z);
  if(bell&&lift)made+=buildStair(bell.x,bell.z,lift.x,lift.z);
- canvas.dataset.stairSteps=String(made);(window.__lt||(window.__lt={}))['fixMid']=performance.now()|0;refreshGround();fillBareGrass();(window.__lt||(window.__lt={}))['fixEnd']=performance.now()|0;
+ canvas.dataset.stairSteps=String(made);(window.__lt||(window.__lt={}))['fixMid']=performance.now()|0;refreshGround();setTimeout(()=>{fillBareGrass().catch(console.warn);},0);(window.__lt||(window.__lt={}))['fixEnd']=performance.now()|0;
  // 出生点放在苏醒草坡（石门所在的起点岛）：从石门往楼梯方向走 4 米、落在岛面上
  if(gate){const rp=stairRamps[0],low=rp?{x:rp.ax+rp.ux*rp.s1,z:rp.az+rp.uz*rp.s1}:null;let dx=low?low.x-gate.x:1,dz=low?low.z-gate.z:0;const L=Math.hypot(dx,dz)||1;dx/=L;dz/=L;
   for(const k of [4,3,5,2.5,6]){const x=gate.x+dx*k,z=gate.z+dz*k,g=topGround(x,z);if(g!==null){zones[0].spawn={x,y:g,z};zones[0].x=gate.x+dx*2;zones[0].z=gate.z+dz*2;zones[0].h=g;zones[0].rx=zones[0].rz=9;
@@ -182,7 +183,9 @@ function routeFixups(){(window.__lt||(window.__lt={}))['fixStart']=performance.n
 
 // 补草：统计现有草叶密度，在岛面上偏秃的格子按周围平均密度补种同款草叶（避开石子路、水池、台阶）
 const grassFill=new THREE.Group();grassFill.name='补种草丛';
-function fillBareGrass(){
+let grassFillGeneration=0;
+async function fillBareGrass(){
+ const generation=++grassFillGeneration;let sliceStart=performance.now();
  for(const c of [...grassFill.children]){grassFill.remove(c);c.dispose?.();}if(!grassFill.parent)scene.add(grassFill);
  scene.updateMatrixWorld(true);const m=new THREE.Matrix4(),w=new THREE.Matrix4(),p=new THREE.Vector3(),q=new THREE.Quaternion(),sc=new THREE.Vector3(),col=new THREE.Color();
  const tiles=[];scene.traverse(o=>{if(!o.isInstancedMesh||!o.userData.meadowCapacity||o.parent===grassFill)return;for(let a=o;a;a=a.parent)if(!a.visible)return;tiles.push(o);});if(!tiles.length)return 0;
@@ -196,20 +199,30 @@ function fillBareGrass(){
  const ray=new THREE.Raycaster(),down=new THREE.Vector3(0,-1,0),mask=new Map();
  const blocked=(x,z,g)=>{const k=Math.floor(x*2)+','+Math.floor(z*2);if(mask.has(k))return mask.get(k);ray.set(new THREE.Vector3(Math.floor(x*2)/2+.25,g+6,Math.floor(z*2)/2+.25),down);ray.far=7.5;const hit=ray.intersectObjects(blockers,false).some(h=>h.point.y>g-.4);mask.set(k,hit);return hit;};
  const chunks=new Map();let added=0;
- for(let x=-60;x<70;x++)for(let z=-40;z<50;z++){const g0=topGround(x+.5,z+.5);if(g0===null)continue;const have=density.get(x+','+z)||0;if(have>=target*.35)continue;
+ for(let x=-60;x<70;x++)for(let z=-40;z<50;z++){if(generation!==grassFillGeneration)return 0;if(performance.now()-sliceStart>6){await new Promise(resolve=>setTimeout(resolve,0));sliceStart=performance.now();}const g0=topGround(x+.5,z+.5);if(g0===null)continue;const have=density.get(x+','+z)||0;if(have>=target*.35)continue;
   for(let n=have;n<target;n++){const px=x+Math.random(),pz=z+Math.random(),g=topGround(px,pz);if(g===null||blocked(px,pz,g))continue;const smp=samples[Math.floor(Math.random()*samples.length)];
    q.setFromAxisAngle(THREE.Object3D.DEFAULT_UP,Math.random()*Math.PI*2);m.compose(p.set(px,g,pz),q,smp.s);const ck=Math.floor(px/8)+','+Math.floor(pz/8);if(!chunks.has(ck))chunks.set(ck,[]);chunks.get(ck).push({m:m.clone(),c:smp.c});added++;}}
  for(const [ck,list] of chunks){const im=new THREE.InstancedMesh(tpl.geometry,tpl.material,list.length);list.forEach((it,i)=>{im.setMatrixAt(i,it.m);im.setColorAt(i,it.c);});im.instanceMatrix.needsUpdate=true;if(im.instanceColor)im.instanceColor.needsUpdate=true;im.computeBoundingSphere();im.computeBoundingBox?.();im.receiveShadow=tpl.receiveShadow;im.castShadow=false;im.userData.meadowCapacity=list.length;im.name='补种草丛 • '+ck;grassFill.add(im);}
  canvas.dataset.grassFilled=String(added);return added;}
 function parseMesh(buffer,info){const view=new DataView(buffer);const nv=view.getInt32(0,true),nt=view.getInt32(4,true);const geom=new THREE.BufferGeometry(),raw=new Float32Array(buffer,8,nv*8),inter=new THREE.InterleavedBuffer(raw,8);geom.setAttribute('position',new THREE.InterleavedBufferAttribute(inter,3,0));geom.setAttribute('normal',new THREE.InterleavedBufferAttribute(inter,3,3));geom.setAttribute('uv',new THREE.InterleavedBufferAttribute(inter,2,6));const indices=nv>65535?new Uint32Array(nt*3):new Uint16Array(nt*3);let lastSlot=-1,start=0;
  for(let i=0;i<nt;i++){const base=8+nv*32+i*16;for(let j=0;j<3;j++)indices[i*3+j]=view.getInt32(base+j*4,true);const slot=view.getInt32(base+12,true);if(slot!==lastSlot){if(lastSlot>=0)geom.addGroup(start,i*3-start,lastSlot);start=i*3;lastSlot=slot;}}if(lastSlot>=0)geom.addGroup(start,nt*3-start,lastSlot);geom.setIndex(new THREE.BufferAttribute(indices,1));geom.computeBoundingBox();geom.computeBoundingSphere();return geom;}
-async function load(){(window.__lt||(window.__lt={}))['start']=performance.now()|0;await skyReady;(window.__lt||(window.__lt={}))['sky']=performance.now()|0;const response=await fetch('./assets/scene.json?v=start-relief1');if(!response.ok)throw new Error('场景读取失败');const data=await response.json(),materials=new Map(),tl=new THREE.TextureLoader();
- await Promise.all(data.materials.map(async m=>{let texture=null;if(m.texture){texture=await tl.loadAsync('./assets/textures/'+m.texture);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());}
+async function loadMeshData(url){
+ if('DecompressionStream' in globalThis){
+  const response=await fetch(url+'.gz?v=stream3');
+  if(response.ok){const bytes=new Uint8Array(await response.arrayBuffer());return bytes[0]===31&&bytes[1]===139?new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer():bytes.buffer;}
+  if(response.status!==404)throw new Error('模型读取失败');
+ }
+ const response=await fetch(url);if(!response.ok)throw new Error('模型读取失败');return response.arrayBuffer();
+}
+async function load(){(window.__lt||(window.__lt={}))['start']=performance.now()|0;await skyReady;(window.__lt||(window.__lt={}))['sky']=performance.now()|0;const response=await fetch('./assets/scene.json?v=stream3');if(!response.ok)throw new Error('场景读取失败');const data=await response.json(),materials=new Map(),tl=new THREE.TextureLoader(); const grouped=new Map();for(const o of data.objects){if(o.name==='treehouse'||/trailing moss/i.test(o.name))continue;if(/^(01 • Cloud traveller|01 • Awakening stone gate|04 • Treehouse timber shelter|04 • Wooden balcony|Sun disk|Cloud sea|Horizon cumulus|Ancient tree • trunk|Tree branch|Tree crown|Tree • exposed root|Tree • leaf lace|03 • Great windmill|Meadow • daisies|Meadow • fine grass)/.test(o.name))continue;if(!grouped.has(o.mesh))grouped.set(o.mesh,[]);grouped.get(o.mesh).push(o);}
+
+ const activeMeshes=data.meshes.filter(m=>grouped.has(m.id));
+ const usedMaterials=new Set(activeMeshes.flatMap(m=>m.materials));
+ await Promise.all(data.materials.filter(m=>usedMaterials.has(m.name)).map(async m=>{let texture=null;if(m.texture){texture=await tl.loadAsync('./assets/textures/'+m.texture);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());}
   const em=m.emission||[0,0,0];const mat=new THREE.MeshStandardMaterial({color:new THREE.Color(...m.color.slice(0,3)),map:texture,roughness:m.roughness,metalness:m.metallic,emissive:new THREE.Color(...em),side:/Daisy|Foliage|Meadow/.test(m.name)?THREE.DoubleSide:THREE.FrontSide});if(texture&&/^tripo/i.test(m.name))mat.color.setRGB(1,1,1);if(/^Meadow • [0-3]$/.test(m.name))styleMeadowGround(mat);materials.set(m.name,mat);
  }));
- const grouped=new Map();for(const o of data.objects){if(o.name==='treehouse'||/trailing moss/i.test(o.name))continue;if(/^(01 • Cloud traveller|01 • Awakening stone gate|04 • Treehouse timber shelter|04 • Wooden balcony|Sun disk|Cloud sea|Horizon cumulus|Ancient tree • trunk|Tree branch|Tree crown|Tree • exposed root|Tree • leaf lace|03 • Great windmill|Meadow • daisies|Meadow • fine grass)/.test(o.name))continue;if(!grouped.has(o.mesh))grouped.set(o.mesh,[]);grouped.get(o.mesh).push(o);}
  let completed=0,next=0;const matrix=new THREE.Matrix4(),quat=new THREE.Quaternion(),pos=new THREE.Vector3(),scale=new THREE.Vector3();
- async function worker(){while(next<data.meshes.length){const info=data.meshes[next++],objects=grouped.get(info.id)||[];if(!objects.length)continue;const res=await fetch('./assets/meshes/'+info.file);if(!res.ok)throw new Error('模型读取失败');const isPlatform=objects.every(o=>cloudPlatform.test(o.name));let geo=parseMesh(await res.arrayBuffer(),info);if(isPlatform)geo=stonePlatform(geo);if(info.id===0)smoothIslandTop(geo);const mats=isPlatform?[stoneMaterial]:info.materials.map(n=>materials.get(n)||new THREE.MeshStandardMaterial({color:'#e9e5d9'}));const mesh=new THREE.InstancedMesh(geo,mats.length===1?mats[0]:mats,objects.length);if(info.id===0){const list=Array.isArray(mesh.material)?mesh.material:[mesh.material];mesh.material=list.map(source=>{const mat=source.clone();mat.onBeforeCompile=shader=>{shader.vertexShader='varying vec3 islandWorld;varying vec3 islandNormal;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n mat4 islandMatrix=modelMatrix;\n #ifdef USE_INSTANCING\n islandMatrix=modelMatrix*instanceMatrix;\n #endif\n islandWorld=(islandMatrix*vec4(position,1.)).xyz;islandNormal=normalize(mat3(islandMatrix)*normal);');shader.fragmentShader='varying vec3 islandWorld;varying vec3 islandNormal;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+ async function worker(){while(next<data.meshes.length){const info=data.meshes[next++],objects=grouped.get(info.id)||[];if(!objects.length)continue;const meshData=await loadMeshData('./assets/meshes/'+info.file);const isPlatform=objects.every(o=>cloudPlatform.test(o.name));let geo=parseMesh(meshData,info);if(isPlatform)geo=stonePlatform(geo);if(info.id===0)smoothIslandTop(geo);const mats=isPlatform?[stoneMaterial]:info.materials.map(n=>materials.get(n)||new THREE.MeshStandardMaterial({color:'#e9e5d9'}));const mesh=new THREE.InstancedMesh(geo,mats.length===1?mats[0]:mats,objects.length);if(info.id===0){const list=Array.isArray(mesh.material)?mesh.material:[mesh.material];mesh.material=list.map(source=>{const mat=source.clone();mat.onBeforeCompile=shader=>{shader.vertexShader='varying vec3 islandWorld;varying vec3 islandNormal;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n mat4 islandMatrix=modelMatrix;\n #ifdef USE_INSTANCING\n islandMatrix=modelMatrix*instanceMatrix;\n #endif\n islandWorld=(islandMatrix*vec4(position,1.)).xyz;islandNormal=normalize(mat3(islandMatrix)*normal);');shader.fragmentShader='varying vec3 islandWorld;varying vec3 islandNormal;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
  float hi=max(diffuseColor.r,max(diffuseColor.g,diffuseColor.b)),lo=min(diffuseColor.r,min(diffuseColor.g,diffuseColor.b));
  float paving=(1.-smoothstep(.06,.19,hi-lo))*smoothstep(.15,.4,hi)*smoothstep(.55,.85,islandNormal.y);
  if(islandWorld.y<10.&&islandWorld.x<35.&&paving>0.){
@@ -227,8 +240,12 @@ async function load(){(window.__lt||(window.__lt={}))['start']=performance.now()
    const proxy=new THREE.Object3D();proxy.name=o.name;proxy.position.copy(pos);proxy.quaternion.copy(quat);proxy.scale.copy(scale);scene.add(proxy);editableRecords.push({key:o.name,name:o.name,group:o.group,object:proxy,geometry:geo,mesh,index:i});
    if(/• meadow(?:\.\d+)?$/.test(o.name)){const bed=addTerrainFoundation(scene,geo,matrix,o.name);if(bed)terrainBeds.push({...bed,sourceName:o.name});canvas.dataset.foundations=String(Number(canvas.dataset.foundations||0)+1);}
    if(/Jumping cloud bridge|Cloud crossing|Final ascent|Start stone staircase/.test(o.name)){const bb=geo.boundingBox.clone().applyMatrix4(matrix);surfaces.push({editorKey:o.name,x:(bb.min.x+bb.max.x)/2,z:(bb.min.z+bb.max.z)/2,h:bb.max.y-.12,rx:(bb.max.x-bb.min.x)*.47,rz:(bb.max.z-bb.min.z)*.47});}
-  });mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingSphere();scene.add(mesh);if(objects.some(o=>/• meadow(?:\.\d+)?$/.test(o.name)))groundMeshes.push(mesh);modelCount+=objects.length;completed++;const progress=Math.round(completed/data.meshes.length*100);$('#percent').textContent=progress+'%';$('#loadBar').style.width=progress+'%';}}
- (window.__lt||(window.__lt={}))['mats']=performance.now()|0;await Promise.all(Array.from({length:6},worker));(window.__lt||(window.__lt={}))['meshes']=performance.now()|0;hero=await createHero(scene,canvas);(window.__lt||(window.__lt={}))['hero']=performance.now()|0;trees=await createRiggedAssets(scene,renderer);(window.__lt||(window.__lt={}))['rigged']=performance.now()|0;editableRecords.push({key:'03 • Great windmill',name:'03 • Great windmill',group:'02 • Architecture',object:trees.windmill,direct:true});editableRecords.push({key:'01 • Awakening stone gate',name:'01 • Awakening stone gate',group:'02 • Architecture',object:trees.arch,direct:true});canvas.dataset.archAsset='fantasy-stone-arch';canvas.dataset.lighting='shared-sky-ibl';canvas.dataset.referenceLayout='central-terraces-treehouse';canvas.dataset.treeAnimations=String(trees.treeAnimations);canvas.dataset.windmillAnimations=String(trees.windmillAnimations);canvas.dataset.leafTrees=String(trees.count);meadow=createMeadow(scene,data,groundMeshes,matchMedia('(pointer:coarse)').matches);canvas.dataset.grassTufts=String(meadow.count);
+  });mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingSphere();scene.add(mesh);if(objects.some(o=>/• meadow(?:\.\d+)?$/.test(o.name)))groundMeshes.push(mesh);modelCount+=objects.length;completed++;const progress=Math.round(completed/activeMeshes.length*80);$('#percent').textContent=progress+'%';$('#loadBar').style.width=progress+'%';}}
+ (window.__lt||(window.__lt={}))['mats']=performance.now()|0;await Promise.all([
+  Promise.all(Array.from({length:6},worker)).then(()=>{window.__lt.meshes=performance.now()|0;}),
+  createHero(scene,canvas).then(value=>{hero=value;window.__lt.hero=performance.now()|0;}),
+  createRiggedAssets(scene,renderer).then(value=>{trees=value;window.__lt.rigged=performance.now()|0;})
+ ]);editableRecords.push({key:'03 • Great windmill',name:'03 • Great windmill',group:'02 • Architecture',object:trees.windmill,direct:true});editableRecords.push({key:'01 • Awakening stone gate',name:'01 • Awakening stone gate',group:'02 • Architecture',object:trees.arch,direct:true});canvas.dataset.archAsset='fantasy-stone-arch';canvas.dataset.lighting='shared-sky-ibl';canvas.dataset.referenceLayout='central-terraces-treehouse';canvas.dataset.treeAnimations=String(trees.treeAnimations);canvas.dataset.windmillAnimations=String(trees.windmillAnimations);canvas.dataset.leafTrees=String(trees.count);meadow=createMeadow(scene,data,groundMeshes,matchMedia('(pointer:coarse)').matches);canvas.dataset.grassTufts=String(meadow.count);
  treehouseRoom=await createTreehouseRoom({scene,renderer,canvas,player:p,controls,hero,outsideCamera:camera,surfaces,getMode:()=>mode});editableRecords.push({key:'04 • Editable treehouse',name:'04 • Editable treehouse',group:'02 • Architecture',object:treehouseRoom.object,direct:true});
  pond=createPond(scene,{groundMeshes:[...groundMeshes,...terrainBeds.map(b=>b.mesh),...editableRecords.filter(r=>/sculpted Tripo cliff|Central lower terrace cliff/.test(r.name)).map(r=>r.mesh)]});editableRecords.push({key:'镜湖水池',name:'镜湖水池',group:'02 • Architecture',object:pond.object,direct:true});meadow.setPond(pond);
  (window.__lt||(window.__lt={}))['preEditor']=performance.now()|0;editor=createSceneEditor({scene,camera,canvas,controls,renderer,sun,records:editableRecords,beds:terrainBeds,trees:trees.objects,grass:meadow.objects,surfaces,onChanged:makeEditorCollisionSync(surfaces,editableRecords),onEnter:()=>{orbit();mode='edit';controls.enabled=true;keys.clear();$('#walkHelp').hidden=true;$('#crosshair').hidden=true;$('#mapPanel').hidden=true;$('#overview').disabled=true;$('#reset').disabled=true;},onExit:()=>{routeFixups();mode='orbit';$('#mapPanel').hidden=false;$('#overview').disabled=false;$('#reset').disabled=false;controls.enabled=true;respawn(p);updateUI();}});createGardenPaths(scene,editableRecords,[trees.windmill,treehouseRoom.object,pond.object],meadow.objects);refreshGround();setGroundProvider((x,z,maxY)=>{if(mode==='edit'||!groundTargets.length)return null;let h=groundHeights(x,z).find(y=>y<=maxY);const r=rampHeight(x,z);if(r!==null&&r<=maxY+.001&&(h===undefined||r>h))h=r;return h===undefined?null:h;});
@@ -239,7 +256,7 @@ respawn(p);$('#editScene').disabled=false;$('#editStart').disabled=false;$('#edi
  $('#percent').textContent='100%';$('#loadBar').style.width='100%';canvas.dataset.models=String(modelCount);canvas.dataset.ready='true';canvas.dataset.atmosphere='spatial-upper-and-lower-clouds';
 }
 function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-lastTime)/1000,.04);lastTime=now;if(sharedUI?.paused)return;now-=timeOffset;if(treehouseRoom?.update()){keys.clear();jumpQueued=false;return;}
- frameCount++;if(now-frameStart>1000){canvas.dataset.fps=String(Math.round(frameCount*1000/(now-frameStart)));frameStart=now;frameCount=0;}
+ if(ready)updateAssetDetails(scene,camera);frameCount++;if(now-frameStart>1000){canvas.dataset.fps=String(Math.round(frameCount*1000/(now-frameStart)));frameStart=now;frameCount=0;}
  if(mode==='walk'&&ready&&!resetting){const input={x:(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0)+joystick.x,z:(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0)+joystick.z,sprint:keys.has('ShiftLeft')||keys.has('ShiftRight'),jump:jumpQueued};let result;if(introCam){input.x=input.z=0;input.jump=false;jumpQueued=false;}
   const n=Math.max(1,Math.ceil(dt/.012));for(let i=0;i<n;i++){result=stepPlayer(p,{...input,jump:input.jump&&i===0},dt/n,surfaces);if(result.entered>=0)toast(result.entered===3?'抵达风之塔 · 你已走过这片云海':`抵达${zones[result.entered].name} · 已记录落脚点`);if(result.fell){resetPlayer();break;}}jumpQueued=false;
   if(introCam)introShot(dt);else if(!swing?.shot(camera,dt))hero?.follow(camera,p,dt,surfaces);updateUI();

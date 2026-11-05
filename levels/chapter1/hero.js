@@ -1,10 +1,11 @@
+import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
 import {createResonanceFX} from '../shared/resonance-fx.js';
 import * as THREE from 'three';
 import {createLocomotionLayer} from './hero-locomotion.js?v=walk1';
 import {GLTFLoader} from './vendor/GLTFLoader.js?v=round-island2';
 import {obstacles,inside,surfaceAt} from './physics.js?v=walk1';
 export async function createHero(scene,canvas){
- const loader=new GLTFLoader();const [gltf,petting]=await Promise.all([loader.loadAsync('./assets/replacements/hero-v31-round.glb'),loader.loadAsync('./assets/replacements/hero-petting.glb?v=natural-contact4')]);gltf.animations.push(...petting.animations);const resonance=await loader.loadAsync('../shared/resonance.glb?v=1');gltf.animations.push(...resonance.animations.map(c=>{c.name='Resonance';return c;}));
+ const loader=configureGLTFLoader(new GLTFLoader());const [gltf,petting]=await Promise.all([loader.loadAsync('./assets/replacements/hero-v31-round.glb'),loader.loadAsync('./assets/replacements/hero-petting.glb?v=natural-contact4')]);gltf.animations.push(...petting.animations);const resonance=await loader.loadAsync('../shared/resonance.glb?v=1');gltf.animations.push(...resonance.animations.map(c=>{c.name='Resonance';return c;}));
  const spaceClips=await Promise.all(['Jump','Glide'].map(name=>loader.loadAsync('../shared/space-'+name+'.glb?v=45').then(g=>{g.animations[0].name=name;g.animations[0].tracks=g.animations[0].tracks.filter(t=>!t.name.startsWith('rig.'));return g.animations[0];})));gltf.animations=gltf.animations.filter(c=>!['Jump','Glide','Parachute','Parasail','Umbrella'].some(n=>c.name===n||c.name.endsWith('|'+n)||c.name.endsWith('_'+n)));gltf.animations.push(...spaceClips);const landingAsset=await loader.loadAsync('../shared/landing35.glb?v=35');const landingClip=landingAsset.animations[0];landingClip.name='Landing';landingClip.tracks=landingClip.tracks.filter(t=>!t.name.startsWith('rig.'));gltf.animations=gltf.animations.filter(c=>c.name!=='Landing');gltf.animations.push(landingClip);
  const root=new THREE.Group();root.name='主角 • v31';root.add(gltf.scene);scene.add(root);
  gltf.scene.traverse(o=>{if(o.isMesh){o.castShadow=o.receiveShadow=true;o.frustumCulled=false;for(const m of Array.isArray(o.material)?o.material:[o.material]){m.roughness=Math.max(.65,m.roughness);m.metalness=0;}}});

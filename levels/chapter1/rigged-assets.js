@@ -1,9 +1,10 @@
+import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
 import * as THREE from 'three';
 import {GLTFLoader} from './vendor/GLTFLoader.js?v=round-island2';
 import {clone} from './vendor/SkeletonUtils.js';
 const placements=[[-44,1.1,-13,.72],[-28,1.1,-13,.62],[-18,5.1,19,.60],[-5,5.1,24,.67],[24,3.1,8,1.5]];
 export async function createRiggedAssets(scene,renderer){
- const loader=new GLTFLoader(),[tree,mill,archAsset]=await Promise.all(['tree','windmill','arch'].map(name=>loader.loadAsync('./assets/replacements/'+name+'.glb'))),mixers=[];
+ const loader=configureGLTFLoader(new GLTFLoader()),[tree,mill,archAsset]=await Promise.all(['tree','windmill','arch'].map(name=>loader.loadAsync('./assets/replacements/'+name+'.glb'))),mixers=[];
  const prepare=(root,leaf=false)=>root.traverse(o=>{
   if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;if(o.isSkinnedMesh)o.frustumCulled=false;
   for(const m of Array.isArray(o.material)?o.material:[o.material]){

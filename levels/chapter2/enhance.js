@@ -1,7 +1,7 @@
 export function enhance({T,scene,world,renderer,camera,controls,put,mesh,mat,ivory,gold,blue,assets,generatedChecks}){
  const animated=[];
  // Selectively lift purple cliff texels into pale lilac while keeping green foliage intact.
- for(const id of [1,2,3]){assets.get(id).traverse(o=>{if(!o.isMesh)return;const m=o.material;m.onBeforeCompile=s=>{s.fragmentShader=s.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+ for(const id of [1,2,3]){assets.get(id)?.traverse(o=>{if(!o.isMesh)return;const m=o.material;m.onBeforeCompile=s=>{s.fragmentShader=s.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
  float violetMask=smoothstep(0.05,0.25,diffuseColor.b-diffuseColor.g)*smoothstep(-0.02,0.12,diffuseColor.r-diffuseColor.g);
  diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.78,.73,.9)*(0.75+0.25*diffuseColor.b),violetMask*.85);`);};m.needsUpdate=true;});}
  // A graded sky and soft alpha cloud layers, rather than low-poly solid spheres.

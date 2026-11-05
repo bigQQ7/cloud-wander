@@ -1,7 +1,8 @@
+import {configureGLTFLoader} from '../shared/web-assets.js?v=3';
 import * as THREE from 'three';
 import {GLTFLoader} from './vendor/GLTFLoader.js?v=round-island2';
 export async function createTreehouseRoom({scene,renderer,canvas,player,controls,getMode,hero,outsideCamera,surfaces}){
- const loader=new GLTFLoader();const [outside,inside]=await Promise.all(['treehouse-new','treehouse-interior'].map(n=>loader.loadAsync('./assets/replacements/'+n+'.glb')));
+ const loader=configureGLTFLoader(new GLTFLoader());const outside=await loader.loadAsync('./assets/replacements/treehouse-new.glb');
  const house=outside.scene,b=new THREE.Box3().setFromObject(house),size=b.getSize(new THREE.Vector3()),center=b.getCenter(new THREE.Vector3()),wrapper=new THREE.Group();house.position.sub(new THREE.Vector3(center.x,b.min.y,center.z));wrapper.add(house);wrapper.scale.setScalar(11/size.y);wrapper.position.set(24,3.1,8);wrapper.name='回声书屋 · 新外观';scene.add(wrapper);
  let stairKey='',stairBoxKey='';const stairBox=new THREE.Box3();const stairRay=new THREE.Raycaster(),stairNormal=new THREE.Matrix3(),stairCells=Array.from({length:49},()=>({x:0,z:0,h:-10000,rx:.16,rz:.16}));surfaces.push(...stairCells);
  function syncStairs(){
@@ -20,12 +21,22 @@ export async function createTreehouseRoom({scene,renderer,canvas,player,controls
   }
  }
  const anchorScale=wrapper.scale.y;const room=new THREE.Scene();room.background=new THREE.Color('#bfd1df');room.add(new THREE.HemisphereLight('#fff4df','#73604e',2));const sun=new THREE.DirectionalLight('#ffefd9',2.3);sun.position.set(3,6,4);room.add(sun);
- const ib=new THREE.Box3().setFromObject(inside.scene),is=ib.getSize(new THREE.Vector3()),ic=ib.getCenter(new THREE.Vector3());const interior=new THREE.Group();inside.scene.position.sub(new THREE.Vector3(ic.x,ib.min.y,ic.z));interior.add(inside.scene);interior.scale.setScalar(10/is.x);room.add(interior);room.updateMatrixWorld(true);
- for(const root of [house,inside.scene])root.traverse(o=>{if(o.isMesh){o.castShadow=o.receiveShadow=true;for(const m of Array.isArray(o.material)?o.material:[o.material]){m.metalness=0;m.roughness=Math.max(.7,m.roughness||0);}}});
+ let interior=null,interiorPromise=null;
+ house.traverse(o=>{if(o.isMesh){o.castShadow=o.receiveShadow=true;for(const m of Array.isArray(o.material)?o.material:[o.material]){m.metalness=0;m.roughness=Math.max(.7,m.roughness||0);}}});
+ async function loadInterior(){
+  if(interior)return;
+  if(interiorPromise)return interiorPromise;
+  interiorPromise=loader.loadAsync('./assets/replacements/treehouse-interior.glb').then(inside=>{
+   const ib=new THREE.Box3().setFromObject(inside.scene),is=ib.getSize(new THREE.Vector3()),ic=ib.getCenter(new THREE.Vector3());
+   interior=new THREE.Group();inside.scene.position.sub(new THREE.Vector3(ic.x,ib.min.y,ic.z));interior.add(inside.scene);interior.scale.setScalar(10/is.x);room.add(interior);room.updateMatrixWorld(true);
+   inside.scene.traverse(o=>{if(o.isMesh){o.castShadow=o.receiveShadow=true;for(const m of Array.isArray(o.material)?o.material:[o.material]){m.metalness=0;m.roughness=Math.max(.7,m.roughness||0);}}});
+  }).catch(error=>{interiorPromise=null;throw error;});
+  return interiorPromise;
+ }
  const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.03,100),ray=new THREE.Raycaster(),keys=new Set();let phase='outside',yaw=0,pitch=0,drag=null,previous=performance.now();const foot=new THREE.Vector3(0,.4,2.8);const ladder={x:24,z:3,base:3.18,top:9};
  const button=document.createElement('button'),hint=document.createElement('div');button.style.cssText='position:fixed;bottom:100px;left:50%;transform:translateX(-50%);z-index:40;padding:14px 24px;border:0;border-radius:24px;background:#fff6df;color:#59472f;font-size:16px;display:none';hint.style.cssText='position:fixed;bottom:65px;left:50%;transform:translateX(-50%);z-index:40;color:#fff;background:#344a55c9;padding:8px 14px;border-radius:16px;display:none';document.body.append(button,hint);
  function setPhase(next){phase=next;keys.clear();controls.enabled=false;canvas.dataset.interior=String(next==='inside');canvas.dataset.treehousePhase=next;for(const id of ['editScene','overview','reset','help','journalButton']){const el=document.getElementById(id);if(el)el.disabled=next!=='outside';}for(const id of ['walkHelp','mapPanel']){const el=document.getElementById(id);if(el)el.hidden=next!=='outside';}canvas.focus();}
- button.onclick=()=>{if(phase==='outside'){player.pos.x=ladder.x;player.pos.z=ladder.z;player.pos.y=ladder.base;setPhase('climbing');}else if(phase==='climbing'){player.pos.y=ladder.base;player.pos.z=ladder.z-1;player.grounded=true;setPhase('outside');}else if(phase==='door'){foot.set(0,.4,2.8);yaw=0;pitch=0;setPhase('inside');}else{player.pos={x:ladder.x,y:ladder.top,z:ladder.z};setPhase('door');}};
+ button.onclick=async()=>{if(phase==='outside'){player.pos.x=ladder.x;player.pos.z=ladder.z;player.pos.y=ladder.base;setPhase('climbing');}else if(phase==='climbing'){player.pos.y=ladder.base;player.pos.z=ladder.z-1;player.grounded=true;setPhase('outside');}else if(phase==='door'){button.disabled=true;button.textContent='正在打开书屋…';try{await loadInterior();}catch(error){console.warn(error);hint.textContent='书屋未加载完成，请重试';return;}finally{button.disabled=false;}foot.set(0,.4,2.8);yaw=0;pitch=0;setPhase('inside');}else{player.pos={x:ladder.x,y:ladder.top,z:ladder.z};setPhase('door');}};
  addEventListener('keydown',e=>{if(phase==='outside')return;if(['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown'].includes(e.code)){keys.add(e.code);e.preventDefault();e.stopImmediatePropagation();}},true);addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',()=>keys.clear());
  canvas.addEventListener('pointerdown',e=>{if(phase==='inside'){drag={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);}},true);canvas.addEventListener('pointermove',e=>{if(phase!=='inside'||!drag)return;yaw-=(e.clientX-drag.x)*.004;pitch=THREE.MathUtils.clamp(pitch-(e.clientY-drag.y)*.004,-1.15,1.15);drag={x:e.clientX,y:e.clientY};},true);canvas.addEventListener('pointerup',()=>drag=null);
  function blocked(x,z){const delta=new THREE.Vector3(x-foot.x,0,z-foot.z),distance=delta.length();if(!distance)return false;delta.normalize();for(const h of [.55,1.15]){ray.set(new THREE.Vector3(foot.x,foot.y+h,foot.z),delta);ray.far=distance+.18;if(ray.intersectObject(interior,true).some(hit=>Math.abs(hit.face.normal.y)<.8))return true;}return false;}

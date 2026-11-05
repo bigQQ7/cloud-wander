@@ -6,7 +6,7 @@
     <title>Unity Web Player | CloudWander_Ch3</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-  <style>.map-button{position:fixed;z-index:99999;right:16px;padding:10px 16px;border:1px solid #ffffff55;border-radius:14px;background:#173154b8;color:white;font:14px system-ui;text-decoration:none}body.map-leaving{opacity:0;transition:opacity .5s}</style><link rel="stylesheet" href="../../ui/loading/loading.css?v=1"><script type="module" src="../../ui/loading/glass-three.js?v=1"></script><script src="../../ui/loading/loading.js?v=1"></script><script src="../../ui/level-loading.js?v=3" data-level="3"></script>
+  <style>.map-button{position:fixed;z-index:99999;right:16px;padding:10px 16px;border:1px solid #ffffff55;border-radius:14px;background:#173154b8;color:white;font:14px system-ui;text-decoration:none}body.map-leaving{opacity:0;transition:opacity .5s}</style><link rel="stylesheet" href="../../ui/loading/loading.css?v=1"><script type="module" src="../../ui/loading/glass-three.js?v=2"></script><script src="../../ui/loading/loading.js?v=3"></script><script src="../../ui/level-loading.js?v=3" data-level="3"></script>
 <style id="ui-trimmed">/* 精简界面 + 画面铺满窗口 */#unity-footer,#unity-loading-container,#return-map,.map-button,body>details,#bgm-toggle,a[href$="test.html"]{display:none!important}html,body{margin:0;height:100%;overflow:hidden;background:#000}#unity-container{position:fixed!important;inset:0!important;left:0!important;top:0!important;transform:none!important;width:100%!important;height:100%!important}#unity-fullscreen-container{width:100%!important;height:100%!important}#unity-canvas{width:100%!important;height:100%!important;display:block}</style><script src="../../ui/level-complete.js?v=1"></script></head>
   <body><a class="map-button" style="top:16px" href="../../index.html">返回地图</a><a class="map-button" style="top:62px" href="../../test.html">切换测试关卡</a><script>window.cloudChapterComplete=function(){window.cloudShowLevelComplete(3)}</script>
     <div id="unity-container" class="unity-desktop">
@@ -58,7 +58,8 @@
       }
 
       var buildUrl = "Build";
-      var buildV = "?v=" + Date.now(); /* 防止浏览器混用旧缓存的构建文件 */
+      // Change this version only when deploying a new Unity build; keep all four files together.
+      var buildV = "?v=web-dxt1024-1";
       var loaderUrl = buildUrl + "/chapter3.loader.js" + buildV;
       var config = {
         arguments: [],
