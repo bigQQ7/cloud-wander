@@ -269,8 +269,8 @@
   "levels/shared/game-audio.js": "dc82f2227c6a07beab4d6125b5cbf9b59f56ac972dd1aa03f40a4e5ae28e30bd",
   "levels/chapter2/enhance.js": "a86dd3885c1adf49d37d796152e8130fbd5732f96d92b0e68e894e2ed15cb5ac",
   "levels/chapter2/game-core.mjs": "c947d2a4488c7c64658b3eb9ebd7b81b34ccff0e06b5d7a2ec714374ca1cd622",
-  "levels/chapter2/index.html": "013a23321e3167e499093b84b45d5ec34a89509529899f47274933d69e70e38a",
-  "levels/chapter2/scene.js": "ec2628caa8784c4372bc60ccea4698d9dc923200916b07eecc70ddbd496c21b9",
+  "levels/chapter2/index.html": "e32b65d8cb27e3b87a58a795e9df0dd848d210ee3202f15f385f0c0e64cb219a",
+  "levels/chapter2/scene.js": "7df9627419d0bf31372f1e02f5492aa215776472e742420a984b84e451642e82",
   "levels/chapter2/clearance.js": "ab551cb7b61b22a1c10eb8d5b281682e2ded6e573279d61c1d78b0bc86399623",
   "levels/chapter2/lane-data.mjs": "83838fccf4562c4ec661085046f5ff4a679b4a56eeeaf28cac8dc074df017795",
   "levels/chapter2/water.js": "ff16e2ec76c3e79b18b5c455ea85e04cc2e220edad5a94ecfeed26080ae38bce",
@@ -285,7 +285,7 @@
   "levels/chapter2/Φ»┤µÿÄΣ╕ÄΦç¬µ╡ï.md": "1f49e3b7bba5f8dbc966966af8f0752e1b06904815ceb6e3e3739a87411b3beb",
   "levels/chapter2/layout.json": "8ccda05bba9b37d4ccea44b010782f776777c0dc3db64eda48cdd9c23abd7e5b",
   "levels/chapter2/σÉ»σè¿ΘóäΦºê.command": "7a35422635e8f1b888a928aa6c575a9621f9294fe0a8402a33ceb8c6350406d6",
-  "levels/chapter2/atmosphere.js": "7f861b9760a8c3d87f477b66b791bbafac8434a24566ae89a12c317f1cc70e10",
+  "levels/chapter2/atmosphere.js": "bb54cda501d83fe0249c0a8c776bc08822fa4c99b5f536f9e019d0a17fa6b991",
   "levels/chapter2/hero.js": "94fe1c5d6542b15f3c47b27bb86c322f80c3fbe17bbd3881a3808edc82544dc6",
   "levels/chapter2/τ¼¼Σ╕ëτëê_µû░τ┤áµ¥ÉµÄÑσàÑΣ╕ÄΦç¬µ╡ï.md": "c26369d73d27b7f9641ae61e674ca158c77340ac177e932d7f5d02eed47e86d2",
   "levels/chapter2/hero-locomotion.js": "89ecd5a90d8c57334511ee18c558cea04a50921087403033b49dec6065c78fe1",
@@ -633,5 +633,7 @@
   "levels/shared/web-textures/cloud-detail-7681963127485902843edd2a.jpg": "7681963127485902843edd2a32d65abb51216e3eecaedc8593de6ea6d0a9b0ff",
   "levels/shared/web-textures/cloud-detail-88a98ecaae55480b1a8242c6.jpg": "88a98ecaae55480b1a8242c64483cfb6f7b593bb4e68e05521595a5ec124f1f9",
   "levels/shared/web-textures/cloud-detail-e303c3c8b652f647385858e6.jpg": "e303c3c8b652f647385858e69e041199edf72cd7b368c900520f254055ba9367",
-  "levels/shared/web-textures/cloud-detail-b80d7af93b44ede9d58a4063.jpg": "b80d7af93b44ede9d58a40630de87458e9a09baa2ae374b7bbf2e6f171253714"
+  "levels/shared/web-textures/cloud-detail-b80d7af93b44ede9d58a4063.jpg": "b80d7af93b44ede9d58a40630de87458e9a09baa2ae374b7bbf2e6f171253714",
+  "levels/chapter2/vendor/shaders/FXAAShader.js": "b2c45ad02565a8e6b6fe8e11de18a4f25294fb845777d20651592864614ae310",
+  "levels/chapter2/vendor/shaders/FXAA-three-LICENSE.txt": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
 }

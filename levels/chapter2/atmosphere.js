@@ -3,6 +3,7 @@ import {EffectComposer} from './vendor/postprocessing/EffectComposer.js';
 import {RenderPass} from './vendor/postprocessing/RenderPass.js';
 import {UnrealBloomPass} from './vendor/postprocessing/UnrealBloomPass.js';
 import {OutputPass} from './vendor/postprocessing/OutputPass.js';
+import {FXAAShader} from './vendor/shaders/FXAAShader.js';
 import {ShaderPass} from './vendor/postprocessing/ShaderPass.js';
 
 export function setupAtmosphere({T,scene,renderer,camera,lake}){
@@ -90,9 +91,9 @@ export function setupAtmosphere({T,scene,renderer,camera,lake}){
   const petals=new T.Points(petalGeo,new T.PointsMaterial({map:pt,size:.32,transparent:true,depthWrite:false,alphaTest:.05}));scene.add(petals);
 
   // ---- 后期：柔光 + 粉色调色 + 暗角
-  // 后期渲染目标带 4 倍多重采样（之前没有，所以边缘出现锯齿），像素比与屏幕一致（之前 1.25 会被放大而发糊）
-  const PR=Math.min(devicePixelRatio,2);const rt=new T.WebGLRenderTarget(innerWidth*PR,innerHeight*PR,{type:T.HalfFloatType,samples:4});
-  const composer=new EffectComposer(renderer,rt);composer.setPixelRatio(PR);composer.setSize(innerWidth,innerHeight);
+  // Keep post-processing buffers single-sampled; smooth edges in the final pass.
+  // This avoids multisample resolves across nested lake-reflection renders.
+  const composer=new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene,camera));
   const bloom=new UnrealBloomPass(new T.Vector2(innerWidth/2,innerHeight/2),.22,.45,.9);composer.addPass(bloom);
   composer.addPass(new OutputPass());
@@ -102,14 +103,23 @@ export function setupAtmosphere({T,scene,renderer,camera,lake}){
       c=mix(vec3(l),c,1.22);c=(c-.5)*1.08+.5;
       c=c*vec3(1.02,.96,1.0)+vec3(.025,.004,.02)*(1.-l);
       
-      float v=smoothstep(.95,.3,length((vUv-.5)*vec2(1.15,1.)));c*=mix(vec3(.86,.74,.84),vec3(1.),v);
+      float v=(1.-smoothstep(.3,.95,length((vUv-.5)*vec2(1.15,1.))));c*=mix(vec3(.86,.74,.84),vec3(1.),v);
       gl_FragColor=vec4(clamp(c,0.,1.),1.);}`});
   composer.addPass(grade);
+  const aa=new ShaderPass(FXAAShader);
+  aa.clear=true;
+  composer.addPass(aa);
+  const drawSize=new T.Vector2();
+  function updateAA(){
+    renderer.getDrawingBufferSize(drawSize);
+    aa.uniforms.resolution.value.set(1/drawSize.x,1/drawSize.y);
+  }
+  updateAA();
 
   return {
     composer,
-    render(){composer.render();},
-    resize(){composer.setSize(innerWidth,innerHeight);bloom.resolution.set(innerWidth/2,innerHeight/2);},
+    render(){renderer.setScissorTest(false);composer.render();},
+    resize(){composer.setSize(innerWidth,innerHeight);updateAA();},
     update(t,dt){
       const a=petalGeo.getAttribute('position');
       for(let i=0;i<NP;i++){let y=a.getY(i)-dt*(.35+.2*Math.sin(seeds[i]));let x=a.getX(i)+dt*(1.6+.9*Math.sin(t*.7+seeds[i]));let z=a.getZ(i)+dt*(.55+.35*Math.cos(t*.5+seeds[i]));if(z>25)z-=65;if(y<-.3){y=14+rnd()*3;x=-45+rnd()*110;}if(x>65)x-=110;a.setXYZ(i,x,y,z);}
