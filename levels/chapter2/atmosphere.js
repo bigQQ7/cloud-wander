@@ -1,7 +1,6 @@
 // 午后粉色梦境氛围：粉色天空与大云团、远处粉色草丘和绒球树、浓一点的粉色雾、飘落的花瓣、柔光与粉色调色。
 import {EffectComposer} from './vendor/postprocessing/EffectComposer.js';
 import {RenderPass} from './vendor/postprocessing/RenderPass.js';
-import {UnrealBloomPass} from './vendor/postprocessing/UnrealBloomPass.js';
 import {OutputPass} from './vendor/postprocessing/OutputPass.js';
 import {FXAAShader} from './vendor/shaders/FXAAShader.js';
 import {ShaderPass} from './vendor/postprocessing/ShaderPass.js';
@@ -95,7 +94,6 @@ export function setupAtmosphere({T,scene,renderer,camera,lake}){
   // This avoids multisample resolves across nested lake-reflection renders.
   const composer=new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene,camera));
-  const bloom=new UnrealBloomPass(new T.Vector2(innerWidth/2,innerHeight/2),.22,.45,.9);composer.addPass(bloom);
   composer.addPass(new OutputPass());
   const grade=new ShaderPass({uniforms:{tDiffuse:{value:null}},vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
     fragmentShader:`uniform sampler2D tDiffuse;varying vec2 vUv;

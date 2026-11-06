@@ -11,7 +11,7 @@ import {createLake} from './water.js?v=1793348657994569199';
 import {buildLane} from './lane.js?v=1793348657994569199';
 import {applyLayout,createEditor} from './editor.js?v=1793348657994569199';
 import {applyFixes} from './fixes.js?v=1793348657994569199';
-import {setupAtmosphere} from './atmosphere.js?v=stableframe1';
+import {setupAtmosphere} from './atmosphere.js?v=stableframe2';
 const scene=new T.Scene();scene.background=new T.Color('#c7dffa');scene.fog=new T.Fog('#d6ddfb',65,170);
 const renderer=new T.WebGLRenderer();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=.9;document.body.prepend(renderer.domElement);
 const camera=new T.PerspectiveCamera(38,innerWidth/innerHeight,.1,350);const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.49;controls.target.set(0,0,-3);camera.position.set(0,43,65);
